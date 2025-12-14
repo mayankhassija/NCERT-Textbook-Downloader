@@ -985,28 +985,6 @@ bookGrid.addEventListener('click', e => {
     updateDownloadButton();
 });
 
-// ----------------- TOUCH SUPPORT -----------------
-bookGrid.addEventListener('touchstart', e => {
-    const card = e.target.closest('.book-card');
-    if (card) toggle(card, true);
-});
-bookGrid.addEventListener('touchmove', e => {
-    const touch = e.touches[0];
-    const el = document.elementFromPoint(touch.clientX, touch.clientY);
-    const card = el ? el.closest('.book-card') : null;
-    if (card) {
-        const code = card.dataset.code;
-        if (!selectedBooks.has(code)) {
-            selectedBooks.add(code);
-            card.classList.add('selected');
-            updateDownloadButton();
-        }
-    }
-});
-bookGrid.addEventListener('touchend', () => {
-    selectionMode = null;
-    ignoreNextClick = true;
-});
 
 // ----------------- CLICK OUTSIDE TO DESELECT -----------------
 document.addEventListener('click', e => {
@@ -1060,3 +1038,4 @@ function setupFilterToggles() {
         });
     });
 }
+
