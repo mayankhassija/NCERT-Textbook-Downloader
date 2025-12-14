@@ -803,10 +803,6 @@ const bookGrid = document.getElementById('book-grid');
 const downloadBtn = document.getElementById('download-selected');
 
 let selectedBooks = new Set();
-let isSelecting = false;
-let startCard = null;
-let selectionMode = null;
-
 let ignoreNextClick = false;
 
 const booksToShow = 12;
@@ -844,12 +840,7 @@ function renderBooks(increment = false) {
         (!classes.length || classes.includes(b.class))
     );
 
-    if (increment) {
-        currentCount += booksToShow;
-    } else {
-        currentCount = booksToShow;
-    }
-
+    currentCount = increment ? currentCount + booksToShow : booksToShow;
     const booksToDisplay = filtered.slice(0, currentCount);
 
     bookGrid.innerHTML = '';
@@ -895,47 +886,29 @@ function attachSelectionEvents() {
     const cards = document.querySelectorAll('.book-card');
     cards.forEach(card => {
         card.onmousedown = e => {
-            if (e.button !== 0) return;
+            if (e.button !== 0) return; // left click only
+            const code = card.dataset.code;
+            const isSelected = selectedBooks.has(code);
 
-            isSelecting = true;
-            startCard = card;
-            e.preventDefault();
-            ignoreNextClick = false;
-
-            const isSelected = selectedBooks.has(card.dataset.code);
-
-            if (!e.ctrlKey) {
-                if (isSelected && !e.shiftKey) selectionMode = 'hold';
-                else {
-                    clearSelection(false);
-                    selectedBooks.add(card.dataset.code);
+            if (e.ctrlKey) {
+                // Ctrl+click toggles selection
+                if (isSelected) {
+                    selectedBooks.delete(code);
+                    card.classList.remove('selected');
+                } else {
+                    selectedBooks.add(code);
                     card.classList.add('selected');
-                    selectionMode = 'add';
                 }
             } else {
-                selectionMode = isSelected ? 'remove' : 'add';
-                toggle(card, true);
+                // Single click selects only this book
+                clearSelection(false);
+                selectedBooks.add(code);
+                card.classList.add('selected');
             }
+
             updateDownloadButton();
         };
-
     });
-}
-
-function toggle(card, keepExisting = false) {
-    const code = card.dataset.code;
-    const isSelected = selectedBooks.has(code);
-
-    if (!keepExisting && !isSelected) clearSelection(false);
-
-    if (isSelected) {
-        selectedBooks.delete(code);
-        card.classList.remove('selected');
-    } else {
-        selectedBooks.add(code);
-        card.classList.add('selected');
-    }
-    updateDownloadButton();
 }
 
 function clearSelection(update = true) {
@@ -947,32 +920,6 @@ function clearSelection(update = true) {
 function updateDownloadButton() {
     downloadBtn.disabled = selectedBooks.size === 0;
 }
-
-// ----------------- SHIFT+CLICK RANGE SELECTION -----------------
-bookGrid.addEventListener('click', e => {
-    const card = e.target.closest('.book-card');
-    if (!card) return;
-
-    if (e.shiftKey && startCard) {
-        e.preventDefault();
-        const cards = [...document.querySelectorAll('.book-card')];
-        const startIndex = cards.indexOf(startCard);
-        const endIndex = cards.indexOf(card);
-        const [from, to] = startIndex < endIndex ? [startIndex, endIndex] : [endIndex, startIndex];
-
-        if (!e.ctrlKey) clearSelection(false);
-
-        for (let i = from; i <= to; i++) {
-            selectedBooks.add(cards[i].dataset.code);
-            cards[i].classList.add('selected');
-        }
-
-    } else if (!e.ctrlKey) {
-        startCard = card;
-    }
-    updateDownloadButton();
-});
-
 
 // ----------------- CLICK OUTSIDE TO DESELECT -----------------
 document.addEventListener('click', e => {
@@ -1026,5 +973,3 @@ function setupFilterToggles() {
         });
     });
 }
-
-
