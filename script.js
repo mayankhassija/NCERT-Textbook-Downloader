@@ -919,18 +919,6 @@ function attachSelectionEvents() {
             updateDownloadButton();
         };
 
-        card.onmouseover = () => {
-            if (!isSelecting || selectionMode === 'hold') return;
-            const code = card.dataset.code;
-            if (selectionMode === 'add' && !selectedBooks.has(code)) {
-                selectedBooks.add(code);
-                card.classList.add('selected');
-            } else if (selectionMode === 'remove' && selectedBooks.has(code)) {
-                selectedBooks.delete(code);
-                card.classList.remove('selected');
-            }
-            updateDownloadButton();
-        };
     });
 }
 
@@ -1038,4 +1026,5 @@ function setupFilterToggles() {
         });
     });
 }
+
 
