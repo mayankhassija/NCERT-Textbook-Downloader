@@ -12,32 +12,44 @@
 
 
 <body>
-        <div class="app-container">
+    <!-- Mobile Header -->
+    <header class="mobile-header">
+        <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <h1 class="app-title">📚 NCERT Textbooks</h1>
+    </header>
 
-                <aside class="sidebar">
-                        <div class="filter-section">
-                                <h2 class="filter-toggle" data-target="subject-filters">
-                                        Subjects <span class="toggle-icon collapsed">▼</span>
-                                    </h2>
-                                <div id="subject-filters" class="filter-group collapsed-content"></div>
-                            </div>
+    <div class="app-container">
 
-                        <div class="filter-section">
-                                <h2 class="filter-toggle" data-target="class-filters">
-                                        Classes <span class="toggle-icon collapsed">▼</span>
-                                    </h2>
-                                <div id="class-filters" class="filter-group collapsed-content"></div>
-                            </div>
+        <aside class="sidebar" id="sidebar">
+            <div class="filter-section">
+                <h2>Subjects</h2>
+                <div id="subject-filters" class="filter-group"></div>
+            </div>
 
-                        <button id="download-selected" disabled>Download Selected</button>
-                    </aside>
+            <div class="filter-section">
+                <h2>Classes</h2>
+                <div id="class-filters" class="filter-group"></div>
+            </div>
 
-                <main class="content">
-                        <div id="book-grid" class="book-grid"></div>
-                                </main>
+        </aside>
 
-            </div>
-       
+        <main class="content">
+            <div id="book-grid" class="book-grid"></div>
+        </main>
+
+    </div>
+
+    <button id="download-selected" aria-label="Download Selected">
+        <svg viewBox="0 0 24 24">
+            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
+        </svg>
+    </button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="script.js"></script>
 </body>
 

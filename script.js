@@ -813,12 +813,67 @@ document.addEventListener('DOMContentLoaded', () => {
     renderFilters();
     renderBooks(false);
     setupFilterToggles();
+    setupMobileMenu();
+    setupMarquee();
 });
+
+// ----------------- MOBILE MENU -----------------
+function setupMobileMenu() {
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const sidebar = document.getElementById('sidebar');
+
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'sidebar-overlay';
+    document.body.appendChild(overlay);
+
+    // Toggle menu
+    function toggleMenu() {
+        hamburgerBtn.classList.toggle('active');
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+
+        // Prevent body scroll when menu is open
+        if (sidebar.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    }
+
+    // Close menu
+    function closeMenu() {
+        hamburgerBtn.classList.remove('active');
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // Event listeners
+    hamburgerBtn.addEventListener('click', toggleMenu);
+    overlay.addEventListener('click', closeMenu);
+
+    // Close menu when clicking on filter checkboxes (mobile UX improvement)
+    sidebar.addEventListener('click', (e) => {
+        if (e.target.type === 'checkbox' && window.innerWidth <= 768) {
+            // Small delay so user can see the checkbox change
+            setTimeout(closeMenu, 300);
+        }
+    });
+
+    // Close menu on window resize if going to desktop
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+            closeMenu();
+        }
+    });
+}
+
 
 // ----------------- FILTERS -----------------
 function renderFilters() {
-    // Subjects
-    [...new Set(BOOKS.map(b => b.subject))].forEach(s => {
+    // Subjects - sorted alphabetically
+    [...new Set(BOOKS.map(b => b.subject))].sort((a, b) => a.localeCompare(b)).forEach(s => {
         subjectFilters.innerHTML += `<label><input type="checkbox" value="${s}" data-type="subject">${s}</label>`;
     });
     // Classes
@@ -840,6 +895,14 @@ function renderBooks(increment = false) {
         (!classes.length || classes.includes(b.class))
     );
 
+    // Sort by class (ascending), then alphabetically by title within each class
+    filtered.sort((a, b) => {
+        if (a.class !== b.class) {
+            return a.class - b.class; // Sort by class number first
+        }
+        return a.title.localeCompare(b.title); // Then sort alphabetically by title
+    });
+
     currentCount = increment ? currentCount + booksToShow : booksToShow;
     const booksToDisplay = filtered.slice(0, currentCount);
 
@@ -852,6 +915,7 @@ function renderBooks(increment = false) {
         if (selectedBooks.has(book.book_code)) card.classList.add('selected');
 
         card.innerHTML = `
+            <div class="checkbox"></div>
             <img src="${thumbUrl(book.book_code)}" alt="${book.title}">
             <div class="book-title">${book.title}</div>
             <div class="book-meta">${book.class} • ${book.subject}</div>
@@ -885,14 +949,29 @@ function renderLoadMore(total) {
 function attachSelectionEvents() {
     const cards = document.querySelectorAll('.book-card');
     cards.forEach(card => {
-        card.onmousedown = e => {
+        card.addEventListener('mousedown', e => {
             if (e.button !== 0) return; // left click only
-            const code = card.dataset.code;
-            const isSelected = selectedBooks.has(code);
 
+            // Checkbox click -> Toggle
+            if (e.target.classList.contains('checkbox') || e.target.closest('.checkbox')) {
+                e.stopPropagation();
+                const code = card.dataset.code;
+                if (selectedBooks.has(code)) {
+                    selectedBooks.delete(code);
+                    card.classList.remove('selected');
+                } else {
+                    selectedBooks.add(code);
+                    card.classList.add('selected');
+                }
+                updateDownloadButton();
+                return;
+            }
+
+            // Card Body click -> Toggle if already selected, otherwise select exclusively
+            const code = card.dataset.code;
             if (e.ctrlKey) {
-                // Ctrl+click toggles selection
-                if (isSelected) {
+                // Ctrl+Click: Toggle selection
+                if (selectedBooks.has(code)) {
                     selectedBooks.delete(code);
                     card.classList.remove('selected');
                 } else {
@@ -900,14 +979,20 @@ function attachSelectionEvents() {
                     card.classList.add('selected');
                 }
             } else {
-                // Single click selects only this book
-                clearSelection(false);
-                selectedBooks.add(code);
-                card.classList.add('selected');
+                // Regular click: Toggle if already selected, otherwise select exclusively
+                if (selectedBooks.has(code)) {
+                    selectedBooks.delete(code);
+                    card.classList.remove('selected');
+                } else {
+                    clearSelection(false);
+                    selectedBooks.add(code);
+                    card.classList.add('selected');
+                }
             }
 
             updateDownloadButton();
-        };
+            e.stopPropagation(); // Prevent document click handler (deselect) and marquee start
+        });
     });
 }
 
@@ -918,7 +1003,13 @@ function clearSelection(update = true) {
 }
 
 function updateDownloadButton() {
-    downloadBtn.disabled = selectedBooks.size === 0;
+    if (selectedBooks.size === 0) {
+        downloadBtn.classList.remove('visible');
+        downloadBtn.disabled = true;
+    } else {
+        downloadBtn.classList.add('visible');
+        downloadBtn.disabled = false;
+    }
 }
 
 // ----------------- CLICK OUTSIDE TO DESELECT -----------------
@@ -948,17 +1039,87 @@ document.addEventListener('keydown', e => {
 });
 
 // ----------------- DOWNLOAD -----------------
-downloadBtn.addEventListener('click', () => {
+downloadBtn.addEventListener('click', async () => {
+    const selectedCodes = [...selectedBooks];
+
+    if (selectedCodes.length === 0) return;
+
+    // Disable button and show loading state
     downloadBtn.disabled = true;
-    [...selectedBooks].forEach((code, i) => {
-        setTimeout(() => {
+    const originalHTML = downloadBtn.innerHTML;
+
+    try {
+        if (selectedCodes.length === 1) {
+            // Single book - direct download
+            const code = selectedCodes[0];
             const a = document.createElement('a');
             a.href = zipUrl(code);
+            a.download = `${code}.zip`;
             a.click();
-            if (i === selectedBooks.size - 1) downloadBtn.disabled = false;
-        }, i * 500);
-    });
+        } else {
+            // Multiple books - sequential downloads with progress
+            downloadBtn.innerHTML = `
+                <svg viewBox="0 0 24 24" class="spinner">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none" opacity="0.25"/>
+                    <path d="M12 2 A10 10 0 0 1 22 12" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round"/>
+                </svg>
+                <span>0/${selectedCodes.length}</span>
+            `;
+
+            // Create hidden iframe for downloads
+            const downloadFrame = document.createElement('iframe');
+            downloadFrame.style.display = 'none';
+            document.body.appendChild(downloadFrame);
+
+            let completed = 0;
+
+            // Download each book sequentially
+            for (let i = 0; i < selectedCodes.length; i++) {
+                const code = selectedCodes[i];
+
+                // Trigger download using iframe (avoids CORS issues)
+                downloadFrame.src = zipUrl(code);
+
+                completed++;
+
+                // Update progress
+                const progressSpan = downloadBtn.querySelector('span');
+                if (progressSpan) {
+                    progressSpan.textContent = `${completed}/${selectedCodes.length}`;
+                }
+
+                // Wait between downloads to avoid overwhelming the browser/server
+                // Last download doesn't need a delay
+                if (i < selectedCodes.length - 1) {
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                }
+            }
+
+            // Clean up
+            setTimeout(() => {
+                document.body.removeChild(downloadFrame);
+            }, 2000);
+
+            // Show completion message briefly
+            downloadBtn.innerHTML = `
+                <svg viewBox="0 0 24 24">
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="currentColor"/>
+                </svg>
+                <span>Done!</span>
+            `;
+
+            await new Promise(resolve => setTimeout(resolve, 1500));
+        }
+    } catch (error) {
+        console.error('Download error:', error);
+        alert('Failed to download books. Please try again or download them individually.');
+    } finally {
+        // Restore button state
+        downloadBtn.innerHTML = originalHTML;
+        downloadBtn.disabled = false;
+    }
 });
+
 
 // ----------------- FILTER TOGGLE UI -----------------
 function setupFilterToggles() {
@@ -971,5 +1132,116 @@ function setupFilterToggles() {
             content.classList.toggle('expanded');
             icon.classList.toggle('collapsed');
         });
+    });
+}
+
+// ----------------- MARQUEE SELECTION -----------------
+function setupMarquee() {
+    const marquee = document.createElement('div');
+    marquee.className = 'selection-marquee';
+    document.body.appendChild(marquee);
+
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
+
+    document.addEventListener('mousedown', e => {
+        // Ignore if right click, or on sidebar/header/buttons/cards
+        if (e.button !== 0) return;
+        if (e.target.closest('.book-card') ||
+            e.target.closest('.sidebar') ||
+            e.target.closest('.mobile-header') ||
+            e.target.closest('#download-selected') ||
+            e.target.closest('#load-more-btn')) return;
+
+        isDragging = true;
+        startX = e.pageX;
+        startY = e.pageY;
+
+        marquee.style.left = startX + 'px';
+        marquee.style.top = startY + 'px';
+        marquee.style.width = '0px';
+        marquee.style.height = '0px';
+        marquee.style.display = 'block';
+
+        if (!e.ctrlKey && !e.shiftKey) {
+            clearSelection();
+        }
+    });
+
+    document.addEventListener('mousemove', e => {
+        if (!isDragging) return;
+
+        const currentX = e.pageX;
+        const currentY = e.pageY;
+
+        // Threshold check
+        const dist = Math.sqrt(Math.pow(currentX - startX, 2) + Math.pow(currentY - startY, 2));
+        if (dist < 5 && marquee.style.display !== 'block') return;
+
+        if (marquee.style.display !== 'block') {
+            marquee.style.display = 'block';
+            if (!e.ctrlKey && !e.shiftKey) {
+                clearSelection();
+            }
+        }
+
+        // Prevent default text selection during drag
+        e.preventDefault();
+
+        const width = Math.abs(currentX - startX);
+        const height = Math.abs(currentY - startY);
+        const left = Math.min(currentX, startX);
+        const top = Math.min(currentY, startY);
+
+        marquee.style.width = width + 'px';
+        marquee.style.height = height + 'px';
+        marquee.style.left = left + 'px';
+        marquee.style.top = top + 'px';
+
+        const rect = { left, top, right: left + width, bottom: top + height };
+        const cards = document.querySelectorAll('.book-card');
+
+        cards.forEach(card => {
+            const cardRect = card.getBoundingClientRect();
+            const cardLeft = cardRect.left + window.scrollX;
+            const cardTop = cardRect.top + window.scrollY;
+            const cardRight = cardLeft + cardRect.width;
+            const cardBottom = cardTop + cardRect.height;
+
+            const intersect = !(rect.left > cardRight ||
+                rect.right < cardLeft ||
+                rect.top > cardBottom ||
+                rect.bottom < cardTop);
+
+            const code = card.dataset.code;
+            if (intersect) {
+                if (!selectedBooks.has(code)) {
+                    selectedBooks.add(code);
+                    card.classList.add('selected');
+                }
+            } else {
+                // Only deselect if we are in "replace" mode (no ctrl)
+                if (!e.ctrlKey && !e.shiftKey) {
+                    if (selectedBooks.has(code)) {
+                        selectedBooks.delete(code);
+                        card.classList.remove('selected');
+                    }
+                }
+            }
+        });
+        updateDownloadButton();
+    });
+
+    document.addEventListener('mouseup', () => {
+        if (isDragging) {
+            isDragging = false;
+            if (marquee.style.display === 'block') {
+                // We dragged
+                ignoreNextClick = true; // Prevent click handler from clearing selection
+                setTimeout(() => ignoreNextClick = false, 100);
+            }
+            marquee.style.display = 'none';
+        }
     });
 }
