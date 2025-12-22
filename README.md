@@ -13,7 +13,7 @@
 
 ## 📖 About
 
-The **NCERT Textbook Downloader** is a client-side web application designed to simplify the process of accessing educational resources. It provides a clean, unified interface to fetch official NCERT PDF textbooks for Classes 1 to 12. Unlike the official site where you might need to navigate multiple dropdowns for each chapter, this tool allows for **bulk selection and downloading**, creating a streamlined experience for students and educators.
+The **NCERT Textbook Downloader** is a client-side web application designed to simplify the process of accessing educational resources. It provides a clean, unified interface to fetch official NCERT PDF textbooks for Classes 1 to 12. Unlike the official site where you might need to navigate multiple dropdowns, this tool allows for **bulk selection and downloading**, creating a streamlined experience for students and educators.
 
 ## ✨ Features
 
