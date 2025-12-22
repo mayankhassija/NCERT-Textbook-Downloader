@@ -34,7 +34,7 @@ https://mayankhassija.github.io/NCERT-Textbook-Downloader/
 
 1.  **Filter**: Use the sidebar to click on a specific **Class** or **Subject**.
 2.  **Select**: Click on the book cards you want to download.
-    - *Tip*: Use the **"Select All"** button in the bottom right (or `Ctrl+A`) to select currently visible books.
+    - *Tip*: Use the **"Select All"** button (or `Ctrl+A`) to select currently visible books.
     - *Tip*: Drag your mouse to create a selection box (marquee) over multiple books.
 3.  **Download**: Click the **Download** floating action button.
     - If one book is selected, it opens directly.
