@@ -37,8 +37,6 @@ https://mayankhassija.github.io/NCERT-Textbook-Downloader/
     - *Tip*: Use the **"Select All"** button (or `Ctrl+A`) to select currently visible books.
     - *Tip*: Drag your mouse to create a selection box (marquee) over multiple books.
 3.  **Download**: Click the **Download** floating action button.
-    - If one book is selected, it opens directly.
-    - If multiple are selected, they are zipped and downloaded together.
 
 ## ⚠️ Disclaimer
 
