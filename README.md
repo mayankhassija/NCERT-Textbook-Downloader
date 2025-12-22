@@ -1,7 +1,7 @@
 # NCERT Textbook Downloader
 
 <div align="center">
-  <img width="500" alt="NCERT Downloader Preview" src="https://github.com/user-attachments/assets/7e51cfe1-4027-42a1-815e-78f25874e010" />
+  <img width="1920" height="922" alt="vocational_books" src="https://github.com/user-attachments/assets/d4e3d6f2-9108-41bb-a1ad-4016704b7dd9" />
   <br/>
   <br/>
   <p>
@@ -17,34 +17,18 @@ The **NCERT Textbook Downloader** is a client-side web application designed to s
 
 ## ✨ Features
 
-- **📚 Comprehensive Library**: Access the full catalog of NCERT textbooks for Classes 1 through 13.
+- **📚 Comprehensive Library**: Access the full catalog of NCERT textbooks for Classes 1 through 12.
 - **⚡ Batch Download**: Select multiple books (or entire subjects) and download them instantly as a single ZIP file.
 - **🔍 Smart Filtering**: Easily browse by Class and Subject with a responsive sidebar.
 - **📱 Fully Responsive**: Optimized experience across Desktop, Tablet, and Mobile devices.
-- **👆 Click-to-Select**: Intuitive card-based selection system—no tiny checkboxes.
+- **👆 Click-to-Select**: Intuitive card-based selection system.
 - **🌗 Modern Aesthetics**: A polished, dark-themed UI that is easy on the eyes.
-
-## 🛠️ Tech Stack
-
-- **Core**: HTML5, CSS3, JavaScript (ES6+)
-- **Libraries**:
-  - [JSZip](https://stuk.github.io/jszip/): For generating ZIP archives of multiple PDFs client-side.
-- **Icons**: SVG Icons for a lightweight and crisp look.
 
 ## 🚀 Getting Started
 
 No installation or build process is required! This is a static web application.
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/your-username/NCERT-Textbook-Downloader.git
-    ```
-2.  **Navigate to the folder:**
-    ```bash
-    cd NCERT-Textbook-Downloader
-    ```
-3.  **Run the app:**
-    - Simply open the `index.html` file in any modern web browser.
+https://mayankhassija.github.io/NCERT-Textbook-Downloader/
 
 ## 💡 How to Use
 
