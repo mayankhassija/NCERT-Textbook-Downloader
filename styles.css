@@ -1,12 +1,23 @@
+/* =========================================
+   1. CSS Variables & Theme Configuration
+   ========================================= */
 :root {
     --bg: #1a1d21;
+    /* Main background color */
     --sidebar: #22262b;
+    /* Sidebar background */
     --card: #2c3036;
+    /* Book card background */
     --border: #3d424a;
+    /* Border color */
     --primary: #06d6a0;
+    /* Primary accent color */
     --header-height: 60px;
 }
 
+/* =========================================
+   2. Global Resets & Base Styles
+   ========================================= */
 * {
     box-sizing: border-box;
 }
@@ -78,6 +89,10 @@ body {
     transform: rotate(-45deg) translate(7px, -7px);
 }
 
+/* =========================================
+   3. Application Layout
+   ========================================= */
+/* Main Container */
 .app-container {
     display: flex;
     min-height: 100vh;
@@ -131,6 +146,7 @@ body {
     cursor: pointer;
 }
 
+/* --- Filter Buttons --- */
 button {
     width: 100%;
     padding: 10px;
@@ -152,6 +168,9 @@ button:disabled {
     cursor: not-allowed;
 }
 
+/* =========================================
+   4. Main Content & Book Grid
+   ========================================= */
 .content {
     flex: 1;
     padding: 20px;
@@ -159,6 +178,7 @@ button:disabled {
 
 .book-grid {
     display: grid;
+    /* Responsive grid with minimum card width */
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 20px;
 }
@@ -251,6 +271,9 @@ button:disabled {
     opacity: 1;
 }
 
+/* =========================================
+   6. Responsive Design
+   ========================================= */
 /* Tablet Styles */
 @media (max-width: 900px) {
     .book-grid {
@@ -377,45 +400,11 @@ button:disabled {
     }
 }
 
-/* Checkbox Styles */
+/* Checkbox Styles - Removed */
+/* .book-card styles are retained for positioning contexts if needed, but checkbox specific styles are deleted */
 .book-card {
     position: relative;
     /* Ensure absolute positioning works for children */
-}
-
-.book-card .checkbox {
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    background: rgba(0, 0, 0, 0.4);
-    opacity: 0;
-    transition: all 0.2s ease;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-
-.book-card:hover .checkbox,
-.book-card.selected .checkbox {
-    opacity: 1;
-}
-
-.book-card.selected .checkbox {
-    background: var(--primary);
-    border-color: var(--primary);
-}
-
-.book-card.selected .checkbox::after {
-    content: '✓';
-    color: #1a1d21;
-    font-size: 14px;
-    font-weight: 800;
 }
 
 /* Selection State */
@@ -436,31 +425,71 @@ button:disabled {
 }
 
 /* Download Icon Button */
-#download-selected {
+/* Now wrapped in .floating-actions */
+/* =========================================
+   5. Floating Action Buttons
+   ========================================= */
+/* Container */
+.floating-actions {
     position: fixed;
     bottom: 24px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(100px);
+    display: flex;
+    gap: 12px;
+    z-index: 100;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: none;
+    /* Allow clicking through when hidden */
+}
+
+.floating-actions.visible {
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+}
+
+/* Common Button Styles */
+#download-selected,
+#select-all-btn {
     min-width: 56px;
     height: 56px;
     border-radius: 28px;
-    padding: 0 16px;
-    display: none;
-    /* Hidden by default */
+    padding: 0 20px;
+    display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    z-index: 100;
-    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+    color: #1a1d21;
+    transition: transform 0.2s, background 0.2s;
 }
 
-#download-selected.visible {
-    display: flex;
-    /* Show when items are selected */
+#download-selected {
+    background: var(--primary);
 }
 
-#download-selected svg {
+#select-all-btn {
+    background: #fff;
+}
+
+#download-selected:hover,
+#select-all-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+#download-selected:active,
+#select-all-btn:active {
+    transform: translateY(0);
+}
+
+#download-selected svg,
+#select-all-btn svg {
     width: 24px;
     height: 24px;
     fill: currentColor;
@@ -468,10 +497,9 @@ button:disabled {
     flex-shrink: 0;
 }
 
-#download-selected span {
-    font-size: 14px;
-    font-weight: 600;
-    white-space: nowrap;
+#download-selected span,
+#select-all-btn span {
+    display: block;
 }
 
 /* Spinner Animation */
@@ -483,4 +511,48 @@ button:disabled {
 
 .spinner {
     animation: spin 1s linear infinite;
+}
+
+/* Subject Grouping Headers */
+.subject-header {
+    width: 100%;
+    margin: 30px 0 15px 0;
+    font-size: 20px;
+    color: var(--primary);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+}
+
+.subject-header:first-child {
+    margin-top: 0;
+}
+
+/* Book Cover Placeholder (Fallback for missing images) */
+.book-cover-placeholder {
+    width: 100%;
+    height: 160px;
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    color: rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 900px) {
+    .book-cover-placeholder {
+        height: 140px;
+    }
+}
+
+@media (max-width: 768px) {
+    .book-cover-placeholder {
+        height: 130px;
+    }
+}
+
+@media (max-width: 480px) {
+    .book-cover-placeholder {
+        height: 120px;
+    }
 }
