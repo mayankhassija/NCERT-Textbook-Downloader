@@ -1,10 +1,17 @@
-// Data Constants (Assumes BOOKS array is available globally)
+// =========================================
+// 1. Data Constants & Configuration
+// =========================================
+// Base URL for NCERT PDF downloads
 const BASE = 'https://ncert.nic.in/textbook/pdf';
-const zipUrl = c => `${BASE}/${c}dd.zip`;
-const thumbUrl = c => `${BASE}/${c}cc.jpg`;
+// Helper functions to generate URLs based on book code
+const zipUrl = c => `${BASE}/${c}dd.zip`;   // Full book zip
+const thumbUrl = c => `${BASE}/${c}cc.jpg`; // Cover image thumbnail
 
 const BOOKS = [
+    // ===== Class 1 · English =====
     { subject: "English", class: 1, book_code: "aemr1", title: "Mridang" },
+
+    // ===== Class 1 · Mathematics =====
     { subject: "Mathematics", class: 1, book_code: "aejm1", title: "Joyful-Mathematics (English)" },
     { subject: "Mathematics", class: 1, book_code: "ahjm1", title: "Joyful-Mathematics (Hindi)" },
     { subject: "Mathematics", class: 1, book_code: "amrjm1", title: "Joyful-Mathematics (Marathi)" },
@@ -28,8 +35,14 @@ const BOOKS = [
     { subject: "Mathematics", class: 1, book_code: "atmjm1", title: "Joyful-Mathematics (Tamil)" },
     { subject: "Mathematics", class: 1, book_code: "adgjm1", title: "Joyful-Mathematics (Dogri)" },
     { subject: "Mathematics", class: 1, book_code: "aksjm1", title: "Joyful-Mathematics (Kashmiri)" },
+
+    // ===== Class 1 · Hindi =====
     { subject: "Hindi", class: 1, book_code: "ahsr1", title: "Sarangi" },
+
+    // ===== Class 1 · Urdu =====
     { subject: "Urdu", class: 1, book_code: "aush1", title: "Shahnai" },
+
+    // ===== Class 2 · Mathematics =====
     { subject: "Mathematics", class: 2, book_code: "bejm1", title: "Joyful-Mathematics (English)" },
     { subject: "Mathematics", class: 2, book_code: "bhjm1", title: "Joyful-Mathematics (Hindi)" },
     { subject: "Mathematics", class: 2, book_code: "basjm1", title: "Joyful-Mathematics (Assamese)" },
@@ -53,8 +66,14 @@ const BOOKS = [
     { subject: "Mathematics", class: 2, book_code: "btljm1", title: "Joyful-Mathematics (Telugu)" },
     { subject: "Mathematics", class: 2, book_code: "bdgjm1", title: "Joyful-Mathematics (Dogri)" },
     { subject: "Mathematics", class: 2, book_code: "bksjm1", title: "Joyful-Mathematics (Kashmiri)" },
+
+    // ===== Class 2 · Hindi =====
     { subject: "Hindi", class: 2, book_code: "bhsr1", title: "Sarangi" },
+
+    // ===== Class 2 · English =====
     { subject: "English", class: 2, book_code: "bemr1", title: "Mridang" },
+
+    // ===== Class 2 · Urdu =====
     { subject: "Urdu", class: 2, book_code: "bush1", title: "Shahnai" },
     // ===== Class 3 · Mathematics =====
     { subject: "Mathematics", class: 3, book_code: "cemm1", title: "Maths Mela" },
@@ -164,83 +183,83 @@ const BOOKS = [
     { subject: "Physical Education and Well Being", class: 3, book_code: "cuky1", title: "Khel Yoga (Urdu)" },
     { subject: "Physical Education and Well Being", class: 3, book_code: "csiky1", title: "Khel Yoga (Sindhi)" },
     { subject: "Physical Education and Well Being", class: 3, book_code: "cksky1", title: "Khel Yoga (Kashmiri)" },
-    // Class 4 – Mathematics
+    // ===== Class 4 · Mathematics =====
     { subject: "Mathematics", class: 4, book_code: "demm1", title: "Math-Mela" },
     { subject: "Mathematics", class: 4, book_code: "dhmm1", title: "Ganit Mela" },
 
-    // Class 4 – Hindi
+    // ===== Class 4 · Hindi =====
     { subject: "Hindi", class: 4, book_code: "dhve1", title: "Veena" },
 
-    // Class 4 – The World Around Us
+    // ===== Class 4 · The World Around Us =====
     { subject: "The World Around Us", class: 4, book_code: "deev1", title: "Our Wonderous World" },
     { subject: "The World Around Us", class: 4, book_code: "dhev1", title: "Hamara Adhbhut Sansar" },
     { subject: "The World Around Us", class: 4, book_code: "duev1", title: "Hamari Hairatangez Duniya" },
     { subject: "The World Around Us", class: 4, book_code: "dpev1", title: "Our Wonderous World (Punjabi)" },
 
-    // Class 4 – English
+    // ===== Class 4 · English =====
     { subject: "English", class: 4, book_code: "desa1", title: "Santoor" },
 
-    // Class 4 – Arts
+    // ===== Class 4 · Arts =====
     { subject: "Arts", class: 4, book_code: "debu1", title: "Bansuri" },
     { subject: "Arts", class: 4, book_code: "dhbu1", title: "Bansuri - I (Hindi)" },
     { subject: "Arts", class: 4, book_code: "dubu1", title: "Bansuri - I (Urdu)" },
 
-    // Class 4 – Physical Education and Well Being
+    // ===== Class 4 · Physical Education and Well Being =====
     { subject: "Physical Education and Well Being", class: 4, book_code: "deky1", title: "Khel Yoga" },
     { subject: "Physical Education and Well Being", class: 4, book_code: "dhky1", title: "Khel Yoga (Hindi)" },
 
-    // Class 4 – Urdu
+    // ===== Class 4 · Urdu =====
     { subject: "Urdu", class: 4, book_code: "dust1", title: "Sitaar" },
 
-    // Class 5 – Mathematics
+    // ===== Class 5 · Mathematics =====
     { subject: "Mathematics", class: 5, book_code: "eemm1", title: "Math-Mela" },
 
-    // Class 5 – Hindi
+    // ===== Class 5 · Hindi =====
     { subject: "Hindi", class: 5, book_code: "ehve1", title: "Veena" },
 
-    // Class 5 – English
+    // ===== Class 5 · English =====
     { subject: "English", class: 5, book_code: "eesa1", title: "Santoor" },
 
-    // Class 5 – The World Around Us
+    // ===== Class 5 · The World Around Us =====
     { subject: "The World Around Us", class: 5, book_code: "eeev1", title: "Our Wonderous World" },
     { subject: "The World Around Us", class: 5, book_code: "euev1", title: "Hamari Hairatangez Duniya" },
 
-    // Class 5 – Arts
+    // ===== Class 5 · Arts =====
     { subject: "Arts", class: 5, book_code: "eebu1", title: "Bansuri" },
 
-    // Class 5 – Physical Education and Well Being
+    // ===== Class 5 · Physical Education and Well Being =====
     { subject: "Physical Education and Well Being", class: 5, book_code: "eeky1", title: "Khel Yoga" },
 
-    // Class 5 – Urdu
+    // ===== Class 5 · Urdu =====
     { subject: "Urdu", class: 5, book_code: "eust1", title: "Sitaar" },
-    // Class 6 – Hindi
+    // ===== Class 6 · Hindi =====
     { subject: "Hindi", class: 6, book_code: "fhml1", title: "Malhar" },
 
-    // Class 6 – Vocational Education
-    { subject: "Vocational Education", class: 6, book_code: "fekb1", title: "Kaushal Bodh (English)" },
-    { subject: "Vocational Education", class: 6, book_code: "fhkb1", title: "Kaushal Bodh (Hindi)" },
-    { subject: "Vocational Education", class: 6, book_code: "fbnkb1", title: "Kaushal Bodh (Bengali)" },
-    { subject: "Vocational Education", class: 6, book_code: "fbdkb1", title: "Kaushal Bodh (Bodo)" },
-    { subject: "Vocational Education", class: 6, book_code: "fdgkb1", title: "Kaushal Bodh (Dogri)" },
-    { subject: "Vocational Education", class: 6, book_code: "fkokb1", title: "Kaushal Bodh (Konkani)" },
-    { subject: "Vocational Education", class: 6, book_code: "forkb1", title: "Kaushal Bodh (Odia)" },
-    { subject: "Vocational Education", class: 6, book_code: "fpnkb1", title: "Kaushal Bodh (Punjabi)" },
-    { subject: "Vocational Education", class: 6, book_code: "fmlkb1", title: "Kaushal Bodh (Malayalam)" },
-    { subject: "Vocational Education", class: 6, book_code: "fknkb1", title: "Kaushal Bodh (Kannada)" },
-    { subject: "Vocational Education", class: 6, book_code: "fmnkb1", title: "Kaushal Bodh (Manipuri)" },
-    { subject: "Vocational Education", class: 6, book_code: "ftmkb1", title: "Kaushal Bodh (Tamil)" },
-    { subject: "Vocational Education", class: 6, book_code: "fgjkb1", title: "Kaushal Bodh (Gujarati)" },
-    { subject: "Vocational Education", class: 6, book_code: "fmtkb1", title: "Kaushal Bodh (Maithili)" },
-    { subject: "Vocational Education", class: 6, book_code: "faskb1", title: "Kaushal Bodh (Assamese)" },
-    { subject: "Vocational Education", class: 6, book_code: "fnpkb1", title: "Kaushal Bodh (Nepali)" },
-    { subject: "Vocational Education", class: 6, book_code: "fskkb1", title: "Kaushal Bodh (Sanskrit)" },
-    { subject: "Vocational Education", class: 6, book_code: "fkskb1", title: "Kaushal Bodh (Kashmiri)" },
-    { subject: "Vocational Education", class: 6, book_code: "fmrkb1", title: "Kaushal Bodh (Marathi)" },
-    { subject: "Vocational Education", class: 6, book_code: "ftlkb1", title: "Kaushal Bodh (Telugu)" },
-    { subject: "Vocational Education", class: 6, book_code: "fsnkb1", title: "Kaushal Bodh (Santhali)" },
-    { subject: "Vocational Education", class: 6, book_code: "fsikb1", title: "Kaushal Bodh (Sindhi)" },
+    // ===== Class 6 · Vocational =====
+    { subject: "Vocational", class: 6, book_code: "fekb1", title: "Kaushal Bodh (English)" },
+    { subject: "Vocational", class: 6, book_code: "fhkb1", title: "Kaushal Bodh (Hindi)" },
+    { subject: "Vocational", class: 6, book_code: "fbnkb1", title: "Kaushal Bodh (Bengali)" },
+    { subject: "Vocational", class: 6, book_code: "fbdkb1", title: "Kaushal Bodh (Bodo)" },
+    { subject: "Vocational", class: 6, book_code: "fdgkb1", title: "Kaushal Bodh (Dogri)" },
+    { subject: "Vocational", class: 6, book_code: "fkokb1", title: "Kaushal Bodh (Konkani)" },
+    { subject: "Vocational", class: 6, book_code: "forkb1", title: "Kaushal Bodh (Odia)" },
+    { subject: "Vocational", class: 6, book_code: "fpnkb1", title: "Kaushal Bodh (Punjabi)" },
+    { subject: "Vocational", class: 6, book_code: "fmlkb1", title: "Kaushal Bodh (Malayalam)" },
+    { subject: "Vocational", class: 6, book_code: "fknkb1", title: "Kaushal Bodh (Kannada)" },
+    { subject: "Vocational", class: 6, book_code: "fmnkb1", title: "Kaushal Bodh (Manipuri)" },
+    { subject: "Vocational", class: 6, book_code: "ftmkb1", title: "Kaushal Bodh (Tamil)" },
+    { subject: "Vocational", class: 6, book_code: "fgjkb1", title: "Kaushal Bodh (Gujarati)" },
+    { subject: "Vocational", class: 6, book_code: "fmtkb1", title: "Kaushal Bodh (Maithili)" },
+    { subject: "Vocational", class: 6, book_code: "faskb1", title: "Kaushal Bodh (Assamese)" },
+    { subject: "Vocational", class: 6, book_code: "fnpkb1", title: "Kaushal Bodh (Nepali)" },
+    { subject: "Vocational", class: 6, book_code: "fskkb1", title: "Kaushal Bodh (Sanskrit)" },
+    { subject: "Vocational", class: 6, book_code: "fkskb1", title: "Kaushal Bodh (Kashmiri)" },
+    { subject: "Vocational", class: 6, book_code: "fmrkb1", title: "Kaushal Bodh (Marathi)" },
+    { subject: "Vocational", class: 6, book_code: "ftlkb1", title: "Kaushal Bodh (Telugu)" },
+    { subject: "Vocational", class: 6, book_code: "fsnkb1", title: "Kaushal Bodh (Santhali)" },
+    { subject: "Vocational", class: 6, book_code: "fsikb1", title: "Kaushal Bodh (Sindhi)" },
 
-    // Class 6 – Physical Education and Well Being
+    // ===== Class 6 · Physical Education and Well Being =====
     { subject: "Physical Education and Well Being", class: 6, book_code: "feky1", title: "Khel Yatra (English)" },
     { subject: "Physical Education and Well Being", class: 6, book_code: "fhky1", title: "Khel Yatra (Hindi)" },
     { subject: "Physical Education and Well Being", class: 6, book_code: "fbnky1", title: "Khel Yatra (Bengali)" },
@@ -265,10 +284,10 @@ const BOOKS = [
     { subject: "Physical Education and Well Being", class: 6, book_code: "fgjky1", title: "Khel Yatra (Gujarati)" },
     { subject: "Physical Education and Well Being", class: 6, book_code: "fukl1", title: "Jismani Taleem aur Tandurusti" },
 
-    // Class 6 – English
+    // ===== Class 6 · English =====
     { subject: "English", class: 6, book_code: "fepr1", title: "Poorvi" },
 
-    // Class 6 – Mathematics
+    // ===== Class 6 · Mathematics =====
     { subject: "Mathematics", class: 6, book_code: "fegp1", title: "Ganita Prakash (English)" },
     { subject: "Mathematics", class: 6, book_code: "fhgp1", title: "Ganita Prakash (Hindi)" },
     { subject: "Mathematics", class: 6, book_code: "forgp1", title: "Ganita Prakash (Odia)" },
@@ -293,15 +312,15 @@ const BOOKS = [
     { subject: "Mathematics", class: 6, book_code: "fsigp1", title: "Ganita Prakash (Sindhi)" },
     { subject: "Mathematics", class: 6, book_code: "fksgp1", title: "Ganita Prakash (Kashmiri)" },
 
-    // Class 6 – Sanskrit
+    // ===== Class 6 · Sanskrit =====
     { subject: "Sanskrit", class: 6, book_code: "fsde1", title: "Deepakam" },
 
-    // Class 6 – Science
+    // ===== Class 6 · Science =====
     { subject: "Science", class: 6, book_code: "fecu1", title: "Curiosity (English)" },
     { subject: "Science", class: 6, book_code: "fhcu1", title: "Jigyasa (Hindi)" },
     { subject: "Science", class: 6, book_code: "fucu1", title: "Tajassus (Urdu)" },
 
-    // Class 6 – Arts
+    // ===== Class 6 · Arts =====
     { subject: "Arts", class: 6, book_code: "fekr1", title: "Kriti-I (English)" },
     { subject: "Arts", class: 6, book_code: "fhkr1", title: "Kriti-I (Hindi)" },
     { subject: "Arts", class: 6, book_code: "fbnkr1", title: "Kriti-I (Bengali)" },
@@ -325,59 +344,59 @@ const BOOKS = [
     { subject: "Arts", class: 6, book_code: "fsikr1", title: "Kriti-I (Sindhi)" },
     { subject: "Arts", class: 6, book_code: "fsnkr1", title: "Kriti-I (Santhali)" },
 
-    // Class 6 – Urdu
+    // ===== Class 6 · Urdu =====
     { subject: "Urdu", class: 6, book_code: "fuky1", title: "Khayal" },
-    // Class 7 – Mathematics
+    // ===== Class 7 · Mathematics =====
     { subject: "Mathematics", class: 7, book_code: "gegp1", title: "Ganita Prakash" },
     { subject: "Mathematics", class: 7, book_code: "gegp2", title: "Ganita Prakash-II" },
     { subject: "Mathematics", class: 7, book_code: "ghgp1", title: "Ganita Prakash(Hindi)" },
     { subject: "Mathematics", class: 7, book_code: "gugp1", title: "Ganita Prakash(Urdu)" },
 
-    // Class 7 – Arts
+    // ===== Class 7 · Arts =====
     { subject: "Arts", class: 7, book_code: "gekr1", title: "Kriti" },
     { subject: "Arts", class: 7, book_code: "ghkr1", title: "Kriti-I (Hindi)" },
 
-    // Class 7 – Hindi
+    // ===== Class 7 · Hindi =====
     { subject: "Hindi", class: 7, book_code: "ghml1", title: "Malhar" },
 
-    // Class 7 – Sanskrit
+    // ===== Class 7 · Sanskrit =====
     { subject: "Sanskrit", class: 7, book_code: "gsde1", title: "Deepakam" },
 
-    // Class 7 – Science
+    // ===== Class 7 · Science =====
     { subject: "Science", class: 7, book_code: "gecu1", title: "Curiosity" },
     { subject: "Science", class: 7, book_code: "ghcu1", title: "Jigyasa" },
     { subject: "Science", class: 7, book_code: "gucu1", title: "Tajassus" },
 
-    // Class 7 – English
+    // ===== Class 7 · English =====
     { subject: "English", class: 7, book_code: "gepr1", title: "Poorvi" },
 
-    // Class 7 – Social Science
+    // ===== Class 7 · Social Science =====
     { subject: "Social Science", class: 7, book_code: "gees1", title: "Exploring Society India and Beyond" },
     { subject: "Social Science", class: 7, book_code: "ghes1", title: "Samaj Ka Aadhyan: Bharat or uske aage" },
     { subject: "Social Science", class: 7, book_code: "gees2", title: "Exploring Society India and Beyond Part 2" },
 
-    // Class 7 – Physical Education and Well Being
+    // ===== Class 7 · Physical Education and Well Being =====
     { subject: "Physical Education and Well Being", class: 7, book_code: "geky1", title: "Khel Yatra" },
     { subject: "Physical Education and Well Being", class: 7, book_code: "gukl1", title: "Khel Yatra (Urdu)" },
     { subject: "Physical Education and Well Being", class: 7, book_code: "ghky1", title: "Khel Yatra (Hindi)" },
 
-    // Class 7 – Vocational Education
-    { subject: "Vocational Education", class: 7, book_code: "gekb1", title: "Kaushal Bodh" },
-    { subject: "Vocational Education", class: 7, book_code: "ghkb1", title: "Kaushal Bodh(Hindi)" },
+    // ===== Class 7 · Vocational =====
+    { subject: "Vocational", class: 7, book_code: "gekb1", title: "Kaushal Bodh" },
+    { subject: "Vocational", class: 7, book_code: "ghkb1", title: "Kaushal Bodh(Hindi)" },
 
-    // Class 7 – Urdu
+    // ===== Class 7 · Urdu =====
     { subject: "Urdu", class: 7, book_code: "guky1", title: "Khayal" },
-    // Class 8 – Mathematics
+    // ===== Class 8 · Mathematics =====
     { subject: "Mathematics", class: 8, book_code: "hegp1", title: "Ganita Prakash" },
 
-    // Class 8 – Arts
+    // ===== Class 8 · Arts =====
     { subject: "Arts", class: 8, book_code: "hekr1", title: "Kriti" },
     { subject: "Arts", class: 8, book_code: "hukr1", title: "Kriti (Urdu)" },
 
-    // Class 8 – Hindi
+    // ===== Class 8 · Hindi =====
     { subject: "Hindi", class: 8, book_code: "hhml1", title: "Malhar" },
 
-    // Class 8 – Sanskrit
+    // ===== Class 8 · Sanskrit =====
     { subject: "Sanskrit", class: 8, book_code: "hsde1", title: "Deepakam" },
 
     // Class 8 – Science
@@ -393,38 +412,38 @@ const BOOKS = [
     // Class 8 – Physical Education and Well Being
     { subject: "Physical Education and Well Being", class: 8, book_code: "heky1", title: "Khel Yatra" },
 
-    // Class 8 – Vocational Education
-    { subject: "Vocational Education", class: 8, book_code: "hekb1", title: "Kaushal Bodh" },
+    // Class 8 – Vocational
+    { subject: "Vocational", class: 8, book_code: "hekb1", title: "Kaushal Bodh" },
 
     // Class 8 – Urdu
     { subject: "Urdu", class: 8, book_code: "huky1", title: "Khayal" },
-    // Class 9 – English
+    // ===== Class 9 · English =====
     { subject: "English", class: 9, book_code: "iebe1", title: "Beehive" },
     { subject: "English", class: 9, book_code: "iemo1", title: "Moments Supplementary Reader" },
     { subject: "English", class: 9, book_code: "iewe1", title: "Words and Expressions 1" },
 
-    // Class 9 – Hindi
+    // ===== Class 9 · Hindi =====
     { subject: "Hindi", class: 9, book_code: "ihks1", title: "Kshitij" },
     { subject: "Hindi", class: 9, book_code: "ihsp1", title: "Sprash" },
     { subject: "Hindi", class: 9, book_code: "ihkr1", title: "Kritika" },
     { subject: "Hindi", class: 9, book_code: "ihsa1", title: "Sanchayan" },
 
-    // Class 9 – Sanskrit
+    // ===== Class 9 · Sanskrit =====
     { subject: "Sanskrit", class: 9, book_code: "ihsh1", title: "Shemushi Prathmo Bhag" },
     { subject: "Sanskrit", class: 9, book_code: "jhva1", title: "Vyakaranavithi" },
     { subject: "Sanskrit", class: 9, book_code: "isab1", title: "Abhyaswaan Bhav" },
 
-    // Class 9 – Mathematics
+    // ===== Class 9 · Mathematics =====
     { subject: "Mathematics", class: 9, book_code: "iemh1", title: "Mathematics" },
     { subject: "Mathematics", class: 9, book_code: "ihmh1", title: "Ganit" },
     { subject: "Mathematics", class: 9, book_code: "iumh1", title: "Reyazi (Urdu)" },
 
-    // Class 9 – Science
+    // ===== Class 9 · Science =====
     { subject: "Science", class: 9, book_code: "iesc1", title: "Science" },
     { subject: "Science", class: 9, book_code: "ihsc1", title: "Vigyan" },
     { subject: "Science", class: 9, book_code: "iusc1", title: "Science (Urdu)" },
 
-    // Class 9 – Urdu
+    // ===== Class 9 · Urdu =====
     { subject: "Urdu", class: 9, book_code: "iugu1", title: "Gulzare-e-urdu" },
     { subject: "Urdu", class: 9, book_code: "iuna1", title: "Nawa-e-urdu" },
     { subject: "Urdu", class: 9, book_code: "iujp1", title: "Jaan Pahechan" },
@@ -432,7 +451,7 @@ const BOOKS = [
     { subject: "Urdu", class: 9, book_code: "iusr1", title: "Sab Rang" },
     { subject: "Urdu", class: 9, book_code: "iuau1", title: "Urdu ki Adabi Asnaf" },
 
-    // Class 9 – Social Science
+    // ===== Class 9 · Social Science =====
     { subject: "Social Science", class: 9, book_code: "iess4", title: "Democratic Politics" },
     { subject: "Social Science", class: 9, book_code: "ihss4", title: "Loktantrik Rajniti" },
     { subject: "Social Science", class: 9, book_code: "iess1", title: "Contemporary India" },
@@ -446,13 +465,13 @@ const BOOKS = [
     { subject: "Social Science", class: 9, book_code: "iuss1", title: "Aasri Hindustan (Urdu)" },
     { subject: "Social Science", class: 9, book_code: "iuss2", title: "Mashiyat (Urdu)" },
 
-    // Class 9 – Environmental Education
+    // ===== Class 9 · Environmental Education =====
     { subject: "Environmental Education", class: 9, book_code: "iepb1", title: "Project Books" },
 
-    // Class 9 – Health and Physical Education
+    // ===== Class 9 · Health and Physical Education =====
     { subject: "Health and Physical Education", class: 9, book_code: "iehp1", title: "Health and Physical Education" },
 
-    // Class 9 – Vocational
+    // ===== Class 9 · Vocational =====
     { subject: "Vocational", class: 9, book_code: "ievc1", title: "Cashier" },
     { subject: "Vocational", class: 9, book_code: "ieva1", title: "Store Operations Assistant" },
     { subject: "Vocational", class: 9, book_code: "ievs1", title: "Solanceous Crop Cultivator" },
@@ -464,31 +483,31 @@ const BOOKS = [
     { subject: "Vocational", class: 9, book_code: "ieeo1", title: "IT Domestic Data Entry Operator" },
     { subject: "Vocational", class: 9, book_code: "iees1", title: "Employability Skill" },
 
-    // Class 9 – ICT
+    // ===== Class 9 · ICT =====
     { subject: "ICT", class: 9, book_code: "iict1", title: "Information and Communication Technology" },
 
-    // Class 10 – Mathematics
+    // ===== Class 10 · Mathematics =====
     { subject: "Mathematics", class: 10, book_code: "jemh1", title: "Mathematics" },
     { subject: "Mathematics", class: 10, book_code: "jhmh1", title: "Ganit" },
     { subject: "Mathematics", class: 10, book_code: "jumh1", title: "Riyazi" },
 
-    // Class 10 – Science
+    // ===== Class 10 · Science =====
     { subject: "Science", class: 10, book_code: "jesc1", title: "Science" },
     { subject: "Science", class: 10, book_code: "jhsc1", title: "Vigyan" },
     { subject: "Science", class: 10, book_code: "jusc1", title: "Science (Urdu)" },
 
-    // Class 10 – Hindi
+    // ===== Class 10 · Hindi =====
     { subject: "Hindi", class: 10, book_code: "jhks1", title: "Kshitij-2" },
     { subject: "Hindi", class: 10, book_code: "jhsp1", title: "Sparsh" },
     { subject: "Hindi", class: 10, book_code: "jhsy1", title: "Sanchayan Bhag-2" },
     { subject: "Hindi", class: 10, book_code: "jhkr1", title: "Kritika" },
 
-    // Class 10 – English
+    // ===== Class 10 · English =====
     { subject: "English", class: 10, book_code: "jeff1", title: "First Flight" },
     { subject: "English", class: 10, book_code: "jefp1", title: "Foot Prints Without Feet (Supplementary Reader)" },
     { subject: "English", class: 10, book_code: "jewe2", title: "Words and Expressions 2" },
 
-    // Class 10 – Social Science
+    // ===== Class 10 · Social Science =====
     { subject: "Social Science", class: 10, book_code: "jess1", title: "Contemporary India" },
     { subject: "Social Science", class: 10, book_code: "jhss1", title: "Samkalin Bharat" },
     { subject: "Social Science", class: 10, book_code: "juss1", title: "Aasri Hindustan-II" },
@@ -502,68 +521,79 @@ const BOOKS = [
     { subject: "Social Science", class: 10, book_code: "jhss4", title: "Loktantrik Rajniti" },
     { subject: "Social Science", class: 10, book_code: "juss4", title: "Jamhuri Siyasat-II" },
 
-    // Class 10 – Sanskrit
+    // ===== Class 10 · Sanskrit =====
     { subject: "Sanskrit", class: 10, book_code: "jhsk1", title: "Shemushi" },
     { subject: "Sanskrit", class: 10, book_code: "jhva1", title: "Vyakaranavithi" },
     { subject: "Sanskrit", class: 10, book_code: "jsab1", title: "Abhyaswaan Bhav-II" },
 
-    // Class 10 – Urdu
+    // ===== Class 10 · Urdu =====
     { subject: "Urdu", class: 10, book_code: "juge1", title: "Gulzar-e-Urdu" },
     { subject: "Urdu", class: 10, book_code: "june1", title: "Nawa-e-Urdu" },
     { subject: "Urdu", class: 10, book_code: "jujp1", title: "Jaan Pahechan" },
     { subject: "Urdu", class: 10, book_code: "judp1", title: "Door-Paas" },
     { subject: "Urdu", class: 10, book_code: "jusr1", title: "Sab Rang" },
 
-    // Class 10 – Environmental Education
+    // ===== Class 10 · Environmental Education =====
     { subject: "Environmental Education", class: 10, book_code: "", title: "Project Books" },
 
-    // Class 10 – Health and Physical Education
+    // ===== Class 10 · Health and Physical Education =====
     { subject: "Health and Physical Education", class: 10, book_code: "jehp1", title: "Health and Physical Education" },
 
+    // ===== Class 11 · Sanskrit =====
     { subject: "Sanskrit", class: 11, book_code: "khsk1", title: "Bhaswati" },
     { subject: "Sanskrit", class: 11, book_code: "khsk2", title: "Shashwati" },
+    // ===== Class 11 · Accountancy =====
     { subject: "Accountancy", class: 11, book_code: "keac1", title: "Financial Accounting-I" },
     { subject: "Accountancy", class: 11, book_code: "khac1", title: "Lekhashastra-I" },
     { subject: "Accountancy", class: 11, book_code: "keac2", title: "Accountancy-II" },
     { subject: "Accountancy", class: 11, book_code: "khac2", title: "Lekhashastra-II" },
     { subject: "Accountancy", class: 11, book_code: "kuac1", title: "Khatadari-I(Urdu)" },
     { subject: "Accountancy", class: 11, book_code: "kuac2", title: "Khatadari-II(Urdu)" },
+    // ===== Class 11 · Business Studies =====
     { subject: "Business Studies", class: 11, book_code: "kebs1", title: "Business Studies" },
     { subject: "Business Studies", class: 11, book_code: "khbs1", title: "Vyavsay Adhyanan" },
     { subject: "Business Studies", class: 11, book_code: "kubs1", title: "Karobari Mutalah I" },
+    // ===== Class 11 · Chemistry =====
     { subject: "Chemistry", class: 11, book_code: "kech1", title: "Chemistry Part-I" },
     { subject: "Chemistry", class: 11, book_code: "khch1", title: "Rasayan Vigyan bhag-I" },
     { subject: "Chemistry", class: 11, book_code: "kuch1", title: "Keemiya I" },
     { subject: "Chemistry", class: 11, book_code: "kech2", title: "Chemistry Part II" },
     { subject: "Chemistry", class: 11, book_code: "khch2", title: "Rasayan Vigyan bhag-II" },
     { subject: "Chemistry", class: 11, book_code: "kuch2", title: "Keemiya II" },
+    // ===== Class 11 · Mathematics =====
     { subject: "Mathematics", class: 11, book_code: "kemh1", title: "Mathematics" },
     { subject: "Mathematics", class: 11, book_code: "khmh1", title: "Ganit" },
     { subject: "Mathematics", class: 11, book_code: "kumh1", title: "Riyazi I" },
+    // ===== Class 11 · Vocational =====
     { subject: "Vocational", class: 11, book_code: "kepc1", title: "Floriculturist- Protected Cultivation" },
     { subject: "Vocational", class: 11, book_code: "kevt1", title: "Vision Technician" },
     { subject: "Vocational", class: 11, book_code: "keoc1", title: "Floriculturist" },
     { subject: "Vocational", class: 11, book_code: "keda1", title: "General Duty Assistant" },
     { subject: "Vocational", class: 11, book_code: "kedf1", title: "Dairy Farmer Enterpreneur" },
     { subject: "Vocational", class: 11, book_code: "kefc1", title: "Floriculturist" },
+    // ===== Class 11 · Biology =====
     { subject: "Biology", class: 11, book_code: "kebo1", title: "Biology" },
     { subject: "Biology", class: 11, book_code: "khbo1", title: "Jeev Vigyan" },
     { subject: "Biology", class: 11, book_code: "kubo1", title: "Hayatiyaat" },
+    // ===== Class 11 · Home Science =====
     { subject: "Home Science", class: 11, book_code: "kehe1", title: "Human Ecology and Family Sciences Part I" },
     { subject: "Home Science", class: 11, book_code: "kehe2", title: "Human Ecology and Family Sciences Part II" },
     { subject: "Home Science", class: 11, book_code: "khhe1", title: "Manav Paristhitiki evm pariwar vigyan Bhag-I" },
     { subject: "Home Science", class: 11, book_code: "khhe2", title: "Manav Paristhitiki evm pariwar vigyan Bhag-II" },
     { subject: "Home Science", class: 11, book_code: "kuim1", title: "Insani Mahauliyat aur Uloom e Khandandari-I" },
     { subject: "Home Science", class: 11, book_code: "kuim2", title: "Insani Mahauliyat aur Uloom e Khandandari Part-II" },
+    // ===== Class 11 · Psychology =====
     { subject: "Psychology", class: 11, book_code: "kepy1", title: "Introduction to Psychology" },
     { subject: "Psychology", class: 11, book_code: "khpy1", title: "Manovigyan" },
     { subject: "Psychology", class: 11, book_code: "kupy1", title: "Nafsiyaat" },
+    // ===== Class 11 · Economics =====
     { subject: "Economics", class: 11, book_code: "keec1", title: "Indian Economic Development" },
     { subject: "Economics", class: 11, book_code: "kest1", title: "Statistics for Economics" },
     { subject: "Economics", class: 11, book_code: "khst1", title: "Sankhyiki" },
     { subject: "Economics", class: 11, book_code: "khec1", title: "Bhartiya Airthryavstha Ka Vikas" },
     { subject: "Economics", class: 11, book_code: "kuec1", title: "Hindustan Ki Moaashi Tarraqqi(Urdu)" },
     { subject: "Economics", class: 11, book_code: "kusc1", title: "Shumariyaat Bar-e-Mushiyat(Urdu)" },
+    // ===== Class 11 · Geography =====
     { subject: "Geography", class: 11, book_code: "kegy2", title: "Fundamental of Physical Geography" },
     { subject: "Geography", class: 11, book_code: "khgy2", title: "Bhautique Bhugol ke Mool Sidhant" },
     { subject: "Geography", class: 11, book_code: "kugy1", title: "Hindustan Tabi'i Mahaul (Urdu)" },
@@ -573,62 +603,80 @@ const BOOKS = [
     { subject: "Geography", class: 11, book_code: "khgy1", title: "Bhart Bhautik Paryabaran" },
     { subject: "Geography", class: 11, book_code: "kugy3", title: "Jughrafia Mein Aamli Kam (Urdu)" },
     { subject: "Geography", class: 11, book_code: "kugm1", title: "Tabi'i Jughraiya Ka Mubadiyat (Urdu)" },
+    // ===== Class 11 · Physics =====
     { subject: "Physics", class: 11, book_code: "keph1", title: "Physics Part-I" },
     { subject: "Physics", class: 11, book_code: "khph1", title: "Bhautiki-I" },
     { subject: "Physics", class: 11, book_code: "kuph1", title: "Tabiyaat-I" },
     { subject: "Physics", class: 11, book_code: "keph2", title: "Physics Part-II" },
     { subject: "Physics", class: 11, book_code: "khph2", title: "Bhautiki-II" },
     { subject: "Physics", class: 11, book_code: "kuph2", title: "Tabiyaat-II" },
+    // ===== Class 11 · Hindi =====
     { subject: "Hindi", class: 11, book_code: "khat1", title: "Antra" },
     { subject: "Hindi", class: 11, book_code: "khar1", title: "Aroh" },
     { subject: "Hindi", class: 11, book_code: "khvt1", title: "Vitan" },
     { subject: "Hindi", class: 11, book_code: "khan1", title: "Antral" },
+    // ===== Class 11 · Sociology =====
     { subject: "Sociology", class: 11, book_code: "kesy1", title: "Introducing Sociology" },
     { subject: "Sociology", class: 11, book_code: "khsy1", title: "Samaj Shastra Parichay-I" },
     { subject: "Sociology", class: 11, book_code: "kusy1", title: "Samajiyaat Ka Tarf" },
     { subject: "Sociology", class: 11, book_code: "kesy2", title: "Understanding Society" },
     { subject: "Sociology", class: 11, book_code: "khsy2", title: "Samaj ka Bodh" },
     { subject: "Sociology", class: 11, book_code: "kusy2", title: "Mutala-e-Muashira" },
+    // ===== Class 11 · English =====
     { subject: "English", class: 11, book_code: "keww1", title: "Woven Words" },
     { subject: "English", class: 11, book_code: "kehb1", title: "Hornbill" },
     { subject: "English", class: 11, book_code: "kesp1", title: "Snapshots Suppl.Reader English" },
+    // ===== Class 11 · Political Science =====
     { subject: "Political Science", class: 11, book_code: "keps1", title: "Political Theory" },
     { subject: "Political Science", class: 11, book_code: "khps1", title: "Raajneeti Sidhant" },
     { subject: "Political Science", class: 11, book_code: "kups1", title: "Hindustani Aain aur Kaam" },
     { subject: "Political Science", class: 11, book_code: "keps2", title: "India Constitution at Work" },
     { subject: "Political Science", class: 11, book_code: "khps2", title: "Bharat ka Samvidhan Sidhant aur Vyavhar" },
     { subject: "Political Science", class: 11, book_code: "kups2", title: "Siyasi Nazaria" },
+    // ===== Class 11 · History =====
     { subject: "History", class: 11, book_code: "kehs1", title: "Themes in World History" },
     { subject: "History", class: 11, book_code: "khhs1", title: "Vishwa Itihas Ke Kuch Vishay" },
     { subject: "History", class: 11, book_code: "kuta1", title: "Tareekh-e-Alam per Mabni Mauzuaat Part I" },
+    // ===== Class 11 · Heritage Crafts =====
     { subject: "Heritage Crafts", class: 11, book_code: "kehc1", title: "Living Craft Traditions of India" },
     { subject: "Heritage Crafts", class: 11, book_code: "kuhc1", title: "Hindustan me Dastkari Ki Riwayat" },
+    // ===== Class 11 · Graphics Design =====
     { subject: "Graphics design", class: 11, book_code: "kegd1", title: "The story of graphic design" },
     { subject: "Graphics design", class: 11, book_code: "khgd1", title: "graphic design ek kahani" },
+    // ===== Class 11 · Computers and Communication Technology =====
     { subject: "Computers and Communication Technology", class: 11, book_code: "kect1", title: "CCT Part-I" },
     { subject: "Computers and Communication Technology", class: 11, book_code: "kect2", title: "CCT Part-II" },
     { subject: "Computers and Communication Technology", class: 11, book_code: "khct1", title: "Computer aur Sanchar Prodhogiki Part-I" },
     { subject: "Computers and Communication Technology", class: 11, book_code: "khct2", title: "Computer aur Sanchar Prodhogiki Part-II" },
     { subject: "Computers and Communication Technology", class: 11, book_code: "kuct1", title: "Computer Aur Muwaslati Technology I" },
     { subject: "Computers and Communication Technology", class: 11, book_code: "kuct2", title: "Computer Aur Muwaslati Technology II" },
+    // ===== Class 11 · Fine Art =====
     { subject: "Fine Art", class: 11, book_code: "kefa1", title: "An Introduction to Indian Art Part-I" },
     { subject: "Fine Art", class: 11, book_code: "khfa1", title: "Bhartiya Kala ka parichay" },
+    // ===== Class 11 · Urdu =====
     { subject: "Urdu", class: 11, book_code: "kuna1", title: "Nai Awaz" },
     { subject: "Urdu", class: 11, book_code: "kudh1", title: "Dhanak" },
     { subject: "Urdu", class: 11, book_code: "kuga1", title: "Gulistan e Adab" },
     { subject: "Urdu", class: 11, book_code: "kuku1", title: "Khyabane Urdu" },
+    // ===== Class 11 · Creative Writing and Translation =====
     { subject: "Creative Writing and Translation", class: 11, book_code: "khsr1", title: "Srijan" },
     { subject: "Creative Writing and Translation", class: 11, book_code: "kucw1", title: "Takhleequi Jauhar" },
+    // ===== Class 11 · Informatics Practices =====
     { subject: "Informatics Practices", class: 11, book_code: "keip1", title: "Informatics Practices" },
+    // ===== Class 11 · Biotechnology =====
     { subject: "Biotechnology", class: 11, book_code: "kebt1", title: "Biotechnology" },
+    // ===== Class 11 · Computer Science =====
     { subject: "Computer Science", class: 11, book_code: "kecs1", title: "Computer Science" },
     { subject: "Computer Science", class: 11, book_code: "kucs1", title: "Computer Science - Urdu" },
+    // ===== Class 11 · Health and Physical Education =====
     { subject: "Health and Physical Education", class: 11, book_code: "kehp1", title: "Health and Physical Education" },
+    // ===== Class 11 · Knowledge Traditions Practices of India =====
     { subject: "Knowledge Traditions Practices of India", class: 11, book_code: "keks1", title: "Knowledge Traditions Practices of India" },
+    // ===== Class 11 · Sangeet =====
     { subject: "Sangeet", class: 11, book_code: "khtp1", title: "Tabla evam Pakhawaj" },
     { subject: "Sangeet", class: 11, book_code: "khgv1", title: "Hindustani Sangeet Gayan Evam Vadan" },
 
-    // Accountancy
+    // ===== Class 12 · Accountancy =====
     { subject: "Accountancy", class: 12, book_code: "leac1", title: "Accountancy-I" },
     { subject: "Accountancy", class: 12, book_code: "leac2", title: "Accountancy Part-II" },
     { subject: "Accountancy", class: 12, book_code: "lhac1", title: "Lekhashastra Part-I" },
@@ -637,7 +685,7 @@ const BOOKS = [
     { subject: "Accountancy", class: 12, book_code: "luac1", title: "Khatadari-I(Urdu)" },
     { subject: "Accountancy", class: 12, book_code: "luac2", title: "Khatadari-II(Urdu)" },
 
-    // Mathematics
+    // ===== Class 12 · Mathematics =====
     { subject: "Mathematics", class: 12, book_code: "lemh1", title: "Mathematics Part-I" },
     { subject: "Mathematics", class: 12, book_code: "lemh2", title: "Mathematics Part-II" },
     { subject: "Mathematics", class: 12, book_code: "lhmh1", title: "Ganit-I" },
@@ -645,7 +693,7 @@ const BOOKS = [
     { subject: "Mathematics", class: 12, book_code: "lumh1", title: "Riyazi-I" },
     { subject: "Mathematics", class: 12, book_code: "lumh2", title: "Riyazi-II" },
 
-    // Physics
+    // ===== Class 12 · Physics =====
     { subject: "Physics", class: 12, book_code: "leph1", title: "Physics Part-I" },
     { subject: "Physics", class: 12, book_code: "leph2", title: "Physics Part-II" },
     { subject: "Physics", class: 12, book_code: "lhph1", title: "Bhautiki-I" },
@@ -653,26 +701,26 @@ const BOOKS = [
     { subject: "Physics", class: 12, book_code: "luph1", title: "Tabiyaat-I" },
     { subject: "Physics", class: 12, book_code: "luph2", title: "Tabiyaat-II" },
 
-    // Hindi
+    // ===== Class 12 · Hindi =====
     { subject: "Hindi", class: 12, book_code: "lhat1", title: "Antra" },
     { subject: "Hindi", class: 12, book_code: "lhar1", title: "Aroh" },
     { subject: "Hindi", class: 12, book_code: "lhvt1", title: "Vitan" },
     { subject: "Hindi", class: 12, book_code: "lhan1", title: "Antral Bhag 2" },
 
-    // English
+    // ===== Class 12 · English =====
     { subject: "English", class: 12, book_code: "lekl1", title: "Kaliedoscope" },
     { subject: "English", class: 12, book_code: "lefl1", title: "Flamingo" },
     { subject: "English", class: 12, book_code: "levt1", title: "Vistas" },
 
-    // Biotechnology
+    // ===== Class 12 · Biotechnology =====
     { subject: "Biotechnology", class: 12, book_code: "lebt1", title: "Biotechnology" },
 
-    // Biology
+    // ===== Class 12 · Biology =====
     { subject: "Biology", class: 12, book_code: "lebo1", title: "Biology" },
     { subject: "Biology", class: 12, book_code: "lhbo1", title: "Jeev Vigyan" },
     { subject: "Biology", class: 12, book_code: "lubo1", title: "Hayatiyaat" },
 
-    // History
+    // ===== Class 12 · History =====
     { subject: "History", class: 12, book_code: "lehs1", title: "Themes in Indian History-I" },
     { subject: "History", class: 12, book_code: "lhhs1", title: "Bharatiya Itihas ke kuchh Vishay-I" },
     { subject: "History", class: 12, book_code: "lehs2", title: "Themes in Indian History-II" },
@@ -683,7 +731,7 @@ const BOOKS = [
     { subject: "History", class: 12, book_code: "luth2", title: "Tareekh-e-Hind ke Mauzuaat-II(Urdu)" },
     { subject: "History", class: 12, book_code: "luth3", title: "Tareekh-e-Hind ke Mauzuaat-III(Urdu)" },
 
-    // Geography
+    // ===== Class 12 · Geography =====
     { subject: "Geography", class: 12, book_code: "legy1", title: "Fundamentals of Human Geography" },
     { subject: "Geography", class: 12, book_code: "legy3", title: "Practical Work in Geography Part II" },
     { subject: "Geography", class: 12, book_code: "lhgy1", title: "Manav Bhugol Ke Mool Sidhant" },
@@ -694,12 +742,12 @@ const BOOKS = [
     { subject: "Geography", class: 12, book_code: "lugy1", title: "Hindustan Awam Aur Maishat(Urdu)" },
     { subject: "Geography", class: 12, book_code: "lugy3", title: "Jughrafia Mein Aamli Kam(Urdu)" },
 
-    // Psychology
+    // ===== Class 12 · Psychology =====
     { subject: "Psychology", class: 12, book_code: "lepy1", title: "Psychology" },
     { subject: "Psychology", class: 12, book_code: "lhpy1", title: "Manovigyan" },
     { subject: "Psychology", class: 12, book_code: "lupy1", title: "Nafsiat(Urdu)" },
 
-    // Sociology
+    // ===== Class 12 · Sociology =====
     { subject: "Sociology", class: 12, book_code: "lesy1", title: "Indian Society" },
     { subject: "Sociology", class: 12, book_code: "lhsy1", title: "Bhartiya Samaj" },
     { subject: "Sociology", class: 12, book_code: "lesy2", title: "Social Change and Development in India" },
@@ -707,7 +755,7 @@ const BOOKS = [
     { subject: "Sociology", class: 12, book_code: "luis1", title: "Hindustani Samaj(Urdu)" },
     { subject: "Sociology", class: 12, book_code: "lusy2", title: "Hindustan Mein Samaji Tabdili Aur Taraqqi(Urdu)" },
 
-    // Chemistry
+    // ===== Class 12 · Chemistry =====
     { subject: "Chemistry", class: 12, book_code: "lech1", title: "Chemistry-I" },
     { subject: "Chemistry", class: 12, book_code: "lech2", title: "Chemistry-II" },
     { subject: "Chemistry", class: 12, book_code: "lhch1", title: "Rasayan vigyan bhag I" },
@@ -715,11 +763,11 @@ const BOOKS = [
     { subject: "Chemistry", class: 12, book_code: "luch1", title: "Keemiya-I" },
     { subject: "Chemistry", class: 12, book_code: "luch2", title: "Keemiya-II" },
 
-    // Sanskrit
+    // ===== Class 12 · Sanskrit =====
     { subject: "Sanskrit", class: 12, book_code: "lhsk1", title: "Bhaswati" },
     { subject: "Sanskrit", class: 12, book_code: "lhsk2", title: "Shaswati" },
 
-    // Political Science
+    // ===== Class 12 · Political Science =====
     { subject: "Political Science", class: 12, book_code: "leps1", title: "Contemporary World Politics" },
     { subject: "Political Science", class: 12, book_code: "lhps1", title: "Samkalin Vishwa Rajniti" },
     { subject: "Political Science", class: 12, book_code: "leps2", title: "Politics in India Since Independence" },
@@ -727,13 +775,13 @@ const BOOKS = [
     { subject: "Political Science", class: 12, book_code: "lups1", title: "Aasri Alami Siyasat(Urdu)" },
     { subject: "Political Science", class: 12, book_code: "luab1", title: "Azadi Ke Baad Hindustan Ki Siyasat(Urdu)" },
 
-    // Home Science
+    // ===== Class 12 · Home Science =====
     { subject: "Home Science", class: 12, book_code: "lehe1", title: "Human Ecology and Family Sciences Part I" },
     { subject: "Home Science", class: 12, book_code: "lehe2", title: "Human Ecology and Family Sciences Part II" },
     { subject: "Home Science", class: 12, book_code: "lehh1", title: "Manav Paristhitik avam Parivar Vigyan Bhag 1" },
     { subject: "Home Science", class: 12, book_code: "lehh2", title: "Manav Paristhitiki avam Parivar Vigyan Bhag 2" },
 
-    // Economics
+    // ===== Class 12 · Economics =====
     { subject: "Economics", class: 12, book_code: "leec2", title: "Introductory Microeconomics" },
     { subject: "Economics", class: 12, book_code: "leec1", title: "Introductory Macroeconomics" },
     { subject: "Economics", class: 12, book_code: "lhec2", title: "Vyashthi Arthshasrta" },
@@ -741,7 +789,7 @@ const BOOKS = [
     { subject: "Economics", class: 12, book_code: "lume1", title: "Juzvi Maashiyat ka Taruf(Urdu)" },
     { subject: "Economics", class: 12, book_code: "lume2", title: "Kulli Maashiyat Ka Taruf(Urdu)" },
 
-    // Business Studies
+    // ===== Class 12 · Business Studies =====
     { subject: "Business Studies", class: 12, book_code: "lebs1", title: "Business Studies-I" },
     { subject: "Business Studies", class: 12, book_code: "lhbs1", title: "Vyavasai Adhyan-I" },
     { subject: "Business Studies", class: 12, book_code: "lebs2", title: "Business Studies-II" },
@@ -749,62 +797,70 @@ const BOOKS = [
     { subject: "Business Studies", class: 12, book_code: "lubs1", title: "Karobari Uloom I(Urdu)" },
     { subject: "Business Studies", class: 12, book_code: "lubs2", title: "Karobari Uloom II(Urdu)" },
 
-    // Urdu
+    // ===== Class 12 · Urdu =====
     { subject: "Urdu", class: 12, book_code: "luga1", title: "Gulistan-e- Adab" },
     { subject: "Urdu", class: 12, book_code: "luku1", title: "Khayaban-e-Urdu" },
     { subject: "Urdu", class: 12, book_code: "luna1", title: "Nai Awaz" },
     { subject: "Urdu", class: 12, book_code: "ludh1", title: "Dhanak" },
 
-    // Heritage Crafts
+    // ===== Class 12 · Heritage Crafts =====
     { subject: "Heritage Crafts", class: 12, book_code: "luhc1", title: "Hindustan me Dastkari Ki Riwayat" },
     { subject: "Heritage Crafts", class: 12, book_code: "lehc1", title: "Craft Tradition of India" },
     { subject: "Heritage Crafts", class: 12, book_code: "lhhc1", title: "Bharatiya Hastkla Ki Paramparayen" },
 
-    // New Age Graphics Design
+    // ===== Class 12 · New Age Graphics Design =====
     { subject: "New Age Graphics Design", class: 12, book_code: "legd1", title: "New Age Graphics Design" },
 
-    // Creative Writing & Translation
+    // ===== Class 12 · Creative Writing & Translation =====
     { subject: "Creative Writing & Translation", class: 12, book_code: "lucw1", title: "Takhleequi Jauhar" },
     { subject: "Creative Writing & Translation", class: 12, book_code: "khsr2", title: "Srijan-II" },
 
-    // Fine Art
+    // ===== Class 12 · Fine Art =====
     { subject: "Fine Art", class: 12, book_code: "lefa1", title: "An Introduction to Indian Art Part-II" },
     { subject: "Fine Art", class: 12, book_code: "lhfa1", title: "Bhartiya Kala ka Itihaas Bhag 2" },
 
-    // Computer Science
+    // ===== Class 12 · Computer Science =====
     { subject: "Computer Science", class: 12, book_code: "lecs1", title: "Computer Science" },
 
-    // Informatics Practices
+    // ===== Class 12 · Informatics Practices =====
     { subject: "Informatics Practices", class: 12, book_code: "leip1", title: "Informatics Practices" },
 
-    // Sangeet
+    // ===== Class 12 · Sangeet =====
     { subject: "Sangeet", class: 12, book_code: "lstp1", title: "Tabla evam Pakhawaj" },
     { subject: "Sangeet", class: 12, book_code: "lsgv1", title: "Hindustani Sangeet Gayan Evam Vaadan" },
-    // Hindi
+    // ===== Class 13 · Hindi =====
     { subject: "Hindi", class: 13, book_code: "kham1", title: "Abhivyakti Aur Madhyam" },
 
-    // Sanskrit
+    // ===== Class 13 · Sanskrit =====
     { subject: "Sanskrit", class: 13, book_code: "klss1", title: "Sanskrit Sahitya parichay" },
 
-    // Heritage Crafts
+    // ===== Class 13 · Heritage Crafts =====
     { subject: "Heritage Crafts", class: 13, book_code: "mehc1", title: "Exploring Craft Tradition of India" },
     { subject: "Heritage Crafts", class: 13, book_code: "khhc1", title: "Bhartiya Hastkala Parmparaon ki Khoj" },
 
-    // Urdu
+    // ===== Class 13 · Urdu =====
     { subject: "Urdu", class: 13, book_code: "kuza1", title: "Zuban-O-Adab ki Tareekh" },
     { subject: "Urdu", class: 13, book_code: "juuq1", title: "Urdu Qwaid aur Insha" },
     { subject: "Urdu", class: 13, book_code: "kuiz1", title: "Izhar Aur Zara-e-Izhar" },
 
-].filter(b => b.book_code[1] === 'e' || b.book_code[1] === 'h');
+].filter(b => (b.book_code[1] === 'e' || b.book_code[1] === 'h') && !["kect1", "kect2", "iepb1", "kegd1", "kehc1", "ievw1", "ievt1", "ievc1", "iees1", "ievh1", "ieve1", "ieeo1", "iepg1", "ievs1", "ieva1", "kedf1", "keoc1", "kefc1", "keda1", "kevt1"].includes(b.book_code));
 
+// =========================================
+// 2. DOM Elements & Application State
+// =========================================
+// UI references
 const subjectFilters = document.getElementById('subject-filters');
 const classFilters = document.getElementById('class-filters');
 const bookGrid = document.getElementById('book-grid');
 const downloadBtn = document.getElementById('download-selected');
+const selectAllBtn = document.getElementById('select-all-btn');
+const floatingActions = document.getElementById('floating-actions');
 
-let selectedBooks = new Set();
-let ignoreNextClick = false;
+// State management
+let selectedBooks = new Set();    // Stores active book codes
+let ignoreNextClick = false;      // Debounce flag for drag interactions
 
+// Pagination / Lazy Loading Config
 const booksToShow = 12;
 let currentCount = 0;
 
@@ -871,6 +927,8 @@ function setupMobileMenu() {
 
 
 // ----------------- FILTERS -----------------
+// ----------------- FILTERS -----------------
+// Render the sidebar filter options
 function renderFilters() {
     // Subjects - sorted alphabetically
     [...new Set(BOOKS.map(b => b.subject))].sort((a, b) => a.localeCompare(b)).forEach(s => {
@@ -890,58 +948,82 @@ function renderBooks(increment = false) {
     const subjects = [...document.querySelectorAll('[data-type=subject]:checked')].map(c => c.value);
     const classes = [...document.querySelectorAll('[data-type=class]:checked')].map(c => +c.value);
 
+    // 1. Filter
     const filtered = BOOKS.filter(b =>
         (!subjects.length || subjects.includes(b.subject)) &&
         (!classes.length || classes.includes(b.class))
     );
 
-    // Sort by class (ascending), then alphabetically by title within each class
-    filtered.sort((a, b) => {
-        if (a.class !== b.class) {
-            return a.class - b.class; // Sort by class number first
-        }
-        return a.title.localeCompare(b.title); // Then sort alphabetically by title
-    });
+    // 2. Group by Subject
+    const grouped = filtered.reduce((acc, book) => {
+        if (!acc[book.subject]) acc[book.subject] = [];
+        acc[book.subject].push(book);
+        return acc;
+    }, {});
 
-    currentCount = increment ? currentCount + booksToShow : booksToShow;
-    const booksToDisplay = filtered.slice(0, currentCount);
+    // 3. Sort Subjects
+    const sortedSubjects = Object.keys(grouped).sort();
 
     bookGrid.innerHTML = '';
-    booksToDisplay.forEach(book => {
-        const card = document.createElement('div');
-        card.className = 'book-card';
-        card.dataset.code = book.book_code;
 
-        if (selectedBooks.has(book.book_code)) card.classList.add('selected');
-
-        card.innerHTML = `
-            <div class="checkbox"></div>
-            <img src="${thumbUrl(book.book_code)}" alt="${book.title}">
-            <div class="book-title">${book.title}</div>
-            <div class="book-meta">${book.class} • ${book.subject}</div>
-        `;
-        bookGrid.appendChild(card);
-    });
-
-    renderLoadMore(filtered.length);
-    attachSelectionEvents();
-    updateDownloadButton();
-}
-
-function renderLoadMore(total) {
-    let loadMoreBtn = document.getElementById('load-more-btn');
-
-    if (currentCount >= total) {
-        if (loadMoreBtn) loadMoreBtn.remove();
-        return;
+    if (sortedSubjects.length === 0) {
+        bookGrid.innerHTML = '<div class="no-results">No books found matching your filters.</div>';
     }
 
-    if (!loadMoreBtn) {
-        loadMoreBtn = document.createElement('button');
-        loadMoreBtn.id = 'load-more-btn';
-        loadMoreBtn.textContent = 'Load More';
-        loadMoreBtn.addEventListener('click', () => renderBooks(true));
-        bookGrid.parentNode.appendChild(loadMoreBtn);
+    // 4. Render Groups
+    sortedSubjects.forEach(subject => {
+        // Sort books within subject by class then title
+        const books = grouped[subject].sort((a, b) => {
+            if (a.class !== b.class) return a.class - b.class;
+            return a.title.localeCompare(b.title);
+        });
+
+        // Header
+        const header = document.createElement('h2');
+        header.className = 'subject-header';
+        header.textContent = subject;
+        bookGrid.appendChild(header);
+
+        // Grid for this subject
+        const grid = document.createElement('div');
+        grid.className = 'book-grid';
+
+        books.forEach(book => {
+            const card = document.createElement('div');
+            card.className = 'book-card';
+            card.dataset.code = book.book_code;
+
+            if (selectedBooks.has(book.book_code)) card.classList.add('selected');
+
+            card.innerHTML = `
+                <img src="${thumbUrl(book.book_code)}" alt="${book.title}" onerror="handleImageError(this)">
+                <div class="book-title">${book.title}</div>
+                <div class="book-meta">${book.class} • ${book.subject}</div>
+            `;
+            grid.appendChild(card);
+        });
+
+        bookGrid.appendChild(grid);
+    });
+
+    attachSelectionEvents();
+    updateFloatingActions();
+}
+
+// Handle missing book cover images by showing a placeholder
+function handleImageError(img) {
+    // Create placeholder element
+    const placeholder = document.createElement('div');
+    placeholder.className = 'book-cover-placeholder';
+    placeholder.innerHTML = `
+        <svg viewBox="0 0 24 24" width="48" height="48" fill="currentColor">
+            <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/>
+        </svg>
+    `;
+
+    // Replace the broken image with the placeholder
+    if (img.parentNode) {
+        img.parentNode.replaceChild(placeholder, img);
     }
 }
 
@@ -952,45 +1034,18 @@ function attachSelectionEvents() {
         card.addEventListener('mousedown', e => {
             if (e.button !== 0) return; // left click only
 
-            // Checkbox click -> Toggle
-            if (e.target.classList.contains('checkbox') || e.target.closest('.checkbox')) {
-                e.stopPropagation();
-                const code = card.dataset.code;
-                if (selectedBooks.has(code)) {
-                    selectedBooks.delete(code);
-                    card.classList.remove('selected');
-                } else {
-                    selectedBooks.add(code);
-                    card.classList.add('selected');
-                }
-                updateDownloadButton();
-                return;
-            }
-
-            // Card Body click -> Toggle if already selected, otherwise select exclusively
             const code = card.dataset.code;
-            if (e.ctrlKey) {
-                // Ctrl+Click: Toggle selection
-                if (selectedBooks.has(code)) {
-                    selectedBooks.delete(code);
-                    card.classList.remove('selected');
-                } else {
-                    selectedBooks.add(code);
-                    card.classList.add('selected');
-                }
+
+            // Simple Toggle Logic
+            if (selectedBooks.has(code)) {
+                selectedBooks.delete(code);
+                card.classList.remove('selected');
             } else {
-                // Regular click: Toggle if already selected, otherwise select exclusively
-                if (selectedBooks.has(code)) {
-                    selectedBooks.delete(code);
-                    card.classList.remove('selected');
-                } else {
-                    clearSelection(false);
-                    selectedBooks.add(code);
-                    card.classList.add('selected');
-                }
+                selectedBooks.add(code);
+                card.classList.add('selected');
             }
 
-            updateDownloadButton();
+            updateFloatingActions();
             e.stopPropagation(); // Prevent document click handler (deselect) and marquee start
         });
     });
@@ -999,20 +1054,48 @@ function attachSelectionEvents() {
 function clearSelection(update = true) {
     selectedBooks.clear();
     document.querySelectorAll('.book-card.selected').forEach(c => c.classList.remove('selected'));
-    if (update) updateDownloadButton();
+    if (update) updateFloatingActions();
 }
 
-function updateDownloadButton() {
-    if (selectedBooks.size === 0) {
-        downloadBtn.classList.remove('visible');
-        downloadBtn.disabled = true;
+// Update visibility and content of Floating Action Buttons
+function updateFloatingActions() {
+    const visibleCards = document.querySelectorAll('.book-card');
+    const totalVisible = visibleCards.length;
+    const totalSelected = selectedBooks.size;
+
+    if (totalSelected === 0) {
+        floatingActions.classList.remove('visible');
     } else {
-        downloadBtn.classList.add('visible');
-        downloadBtn.disabled = false;
+        floatingActions.classList.add('visible');
+
+        // Update Download Button Text
+        downloadBtn.innerHTML = `
+            <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" /></svg>
+            <span>Download (${totalSelected})</span>
+        `;
+
+        // Update Select All Button State
+        // Toggle between "Select All" and "Deselect All" based on coverage
+        if (totalSelected === totalVisible && totalVisible > 0) {
+            // All selected -> Show Deselect All
+            selectAllBtn.innerHTML = `
+                <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                <span>Deselect All</span>
+            `;
+            selectAllBtn.dataset.mode = 'deselect';
+        } else {
+            // Partial selection -> Show Select All
+            selectAllBtn.innerHTML = `
+                 <svg viewBox="0 0 24 24"><path d="M18 7l-1.41-1.41-6.34 6.34 1.41 1.41L18 7zm4.24-1.41L11.66 16.17 7.48 12l-1.41 1.41L11.66 19l12-12-1.42-1.41zM.41 13.41L6 19l1.41-1.41L1.83 12 .41 13.41z"/></svg>
+                <span>Select All</span>
+            `;
+            selectAllBtn.dataset.mode = 'select';
+        }
     }
 }
 
 // ----------------- CLICK OUTSIDE TO DESELECT -----------------
+// Deselect all books if clicking background area
 document.addEventListener('click', e => {
     if (ignoreNextClick) {
         ignoreNextClick = false;
@@ -1020,13 +1103,14 @@ document.addEventListener('click', e => {
     }
     if (!e.target.closest('.book-card') &&
         !e.target.closest('#download-selected') &&
-        !e.target.closest('#load-more-btn') &&
+        !e.target.closest('#select-all-btn') &&
         !e.target.closest('.sidebar')) {
         clearSelection();
     }
 });
 
 // ----------------- CTRL+A -----------------
+// Select all visible books with Ctrl+A
 document.addEventListener('keydown', e => {
     if (e.ctrlKey && e.key.toLowerCase() === 'a') {
         e.preventDefault();
@@ -1034,11 +1118,31 @@ document.addEventListener('keydown', e => {
             selectedBooks.add(card.dataset.code);
             card.classList.add('selected');
         });
-        updateDownloadButton();
+        updateFloatingActions();
     }
 });
 
+// ----------------- SELECT ALL BUTTON -----------------
+// Handle floating "Select All/Deselect All" button click
+selectAllBtn.addEventListener('click', () => {
+    const isSelectMode = selectAllBtn.dataset.mode !== 'deselect';
+    const cards = document.querySelectorAll('.book-card');
+
+    if (isSelectMode) {
+        cards.forEach(card => {
+            selectedBooks.add(card.dataset.code);
+            card.classList.add('selected');
+        });
+    } else {
+        selectedBooks.clear();
+        cards.forEach(c => c.classList.remove('selected'));
+    }
+    updateFloatingActions();
+});
+
 // ----------------- DOWNLOAD -----------------
+// ----------------- DOWNLOAD -----------------
+// Handle download button click
 downloadBtn.addEventListener('click', async () => {
     const selectedCodes = [...selectedBooks];
 
@@ -1067,6 +1171,7 @@ downloadBtn.addEventListener('click', async () => {
             `;
 
             // Create hidden iframe for downloads
+            // This technique works better for triggering multiple downloads than simple <a> tags
             const downloadFrame = document.createElement('iframe');
             downloadFrame.style.display = 'none';
             document.body.appendChild(downloadFrame);
@@ -1077,7 +1182,7 @@ downloadBtn.addEventListener('click', async () => {
             for (let i = 0; i < selectedCodes.length; i++) {
                 const code = selectedCodes[i];
 
-                // Trigger download using iframe (avoids CORS issues)
+                // Trigger download using iframe (avoids CORS issues for some setups)
                 downloadFrame.src = zipUrl(code);
 
                 completed++;
@@ -1122,6 +1227,8 @@ downloadBtn.addEventListener('click', async () => {
 
 
 // ----------------- FILTER TOGGLE UI -----------------
+// ----------------- FILTER TOGGLE UI -----------------
+// Setup expandable/collapsible filter sections (not currently key to main flow but kept for future)
 function setupFilterToggles() {
     const toggles = document.querySelectorAll('.filter-toggle');
     toggles.forEach(toggle => {
@@ -1136,6 +1243,8 @@ function setupFilterToggles() {
 }
 
 // ----------------- MARQUEE SELECTION -----------------
+// ----------------- MARQUEE SELECTION -----------------
+// Enable click-and-drag box selection
 function setupMarquee() {
     const marquee = document.createElement('div');
     marquee.className = 'selection-marquee';
@@ -1151,8 +1260,7 @@ function setupMarquee() {
         if (e.target.closest('.book-card') ||
             e.target.closest('.sidebar') ||
             e.target.closest('.mobile-header') ||
-            e.target.closest('#download-selected') ||
-            e.target.closest('#load-more-btn')) return;
+            e.target.closest('#floating-actions')) return;
 
         isDragging = true;
         startX = e.pageX;
@@ -1230,7 +1338,7 @@ function setupMarquee() {
                 }
             }
         });
-        updateDownloadButton();
+        updateFloatingActions();
     });
 
     document.addEventListener('mouseup', () => {
