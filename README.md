@@ -17,12 +17,12 @@ The **NCERT Textbook Downloader** is a client-side web application designed to s
 
 ## ✨ Features
 
-- **📚 Comprehensive Library**: Access the full catalog of NCERT textbooks for Classes 1 through 12.
-- **⚡ Batch Download**: Select multiple books (or entire subjects) and download them instantly as a single ZIP file.
-- **🔍 Smart Filtering**: Easily browse by Class and Subject with a responsive sidebar.
-- **📱 Fully Responsive**: Optimized experience across Desktop, Tablet, and Mobile devices.
-- **👆 Click-to-Select**: Intuitive card-based selection system.
-- **🌗 Modern Aesthetics**: A polished, dark-themed UI that is easy on the eyes.
+- **📚 Comprehensive Library**
+- **⚡ Batch Download**
+- **🔍 Smart Filtering**
+- **📱 Fully Responsive**
+- **👆 Click-to-Select**
+- **🌗 Modern Aesthetics**
 
 ## 🚀 Getting Started
 
