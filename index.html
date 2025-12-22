@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <title>NCERT Textbook Downloader</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Main Stylesheet -->
     <link rel="stylesheet" href="styles.css">
+    <!-- Favicon -->
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.85em' font-size='90'>📚</text></svg>">
 </head>
@@ -22,14 +24,18 @@
         <h1 class="app-title">📚 NCERT Textbooks</h1>
     </header>
 
+    <!-- Application Layout -->
     <div class="app-container">
 
+        <!-- Sidebar for Filters -->
         <aside class="sidebar" id="sidebar">
+            <!-- Subject Filter Section -->
             <div class="filter-section">
                 <h2>Subjects</h2>
                 <div id="subject-filters" class="filter-group"></div>
             </div>
 
+            <!-- Class Filter Section -->
             <div class="filter-section">
                 <h2>Classes</h2>
                 <div id="class-filters" class="filter-group"></div>
@@ -37,19 +43,36 @@
 
         </aside>
 
+        <!-- Main Content Area -->
         <main class="content">
-            <div id="book-grid" class="book-grid"></div>
+            <!-- Container for Book Cards -->
+            <div id="book-grid"></div>
         </main>
 
     </div>
 
-    <button id="download-selected" aria-label="Download Selected">
-        <svg viewBox="0 0 24 24">
-            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
-        </svg>
-    </button>
+    <!-- Floating Action Buttons for Bulk Operations -->
+    <div id="floating-actions" class="floating-actions">
+        <!-- Select All Button -->
+        <button id="select-all-btn" aria-label="Select All">
+            <svg viewBox="0 0 24 24">
+                <path
+                    d="M18 7l-1.41-1.41-6.34 6.34 1.41 1.41L18 7zm4.24-1.41L11.66 16.17 7.48 12l-1.41 1.41L11.66 19l12-12-1.42-1.41zM.41 13.41L6 19l1.41-1.41L1.83 12 .41 13.41z" />
+            </svg>
+            <span>Select All</span>
+        </button>
+        <!-- Download Button -->
+        <button id="download-selected" aria-label="Download Selected">
+            <svg viewBox="0 0 24 24">
+                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
+            </svg>
+            <span>Download</span>
+        </button>
+    </div>
 
+    <!-- JSZip Library for Zipping Files -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <!-- Main Application Script -->
     <script src="script.js"></script>
 </body>
 
