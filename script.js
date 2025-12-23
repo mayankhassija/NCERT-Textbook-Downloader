@@ -871,6 +871,12 @@ document.addEventListener('DOMContentLoaded', () => {
     setupFilterToggles();
     setupMobileMenu();
     setupMarquee();
+
+    // Force the browser to stop the loading spinner after 3 seconds
+    setTimeout(() => {
+        window.stop();
+        console.log("Page load forced to stop after 3s");
+    }, 3000); 
 });
 
 // ----------------- MOBILE MENU -----------------
@@ -996,7 +1002,7 @@ function renderBooks(increment = false) {
             if (selectedBooks.has(book.book_code)) card.classList.add('selected');
 
             card.innerHTML = `
-                <img src="${thumbUrl(book.book_code)}" alt="${book.title}" onerror="handleImageError(this)">
+                <img src="${thumbUrl(book.book_code)}" alt="${book.title}" loading="lazy" onerror="handleImageError(this)">
                 <div class="book-title">${book.title}</div>
                 <div class="book-meta">${book.class} • ${book.subject}</div>
             `;
@@ -1059,38 +1065,25 @@ function clearSelection(update = true) {
 
 // Update visibility and content of Floating Action Buttons
 function updateFloatingActions() {
-    const visibleCards = document.querySelectorAll('.book-card');
-    const totalVisible = visibleCards.length;
     const totalSelected = selectedBooks.size;
 
+    // Show only if at least 1 book is selected
     if (totalSelected === 0) {
         floatingActions.classList.remove('visible');
     } else {
         floatingActions.classList.add('visible');
 
-        // Update Download Button Text
+        // Update Download Button
         downloadBtn.innerHTML = `
             <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" /></svg>
             <span>Download (${totalSelected})</span>
         `;
 
-        // Update Select All Button State
-        // Toggle between "Select All" and "Deselect All" based on coverage
-        if (totalSelected === totalVisible && totalVisible > 0) {
-            // All selected -> Show Deselect All
-            selectAllBtn.innerHTML = `
-                <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-                <span>Deselect All</span>
-            `;
-            selectAllBtn.dataset.mode = 'deselect';
-        } else {
-            // Partial selection -> Show Select All
-            selectAllBtn.innerHTML = `
-                 <svg viewBox="0 0 24 24"><path d="M18 7l-1.41-1.41-6.34 6.34 1.41 1.41L18 7zm4.24-1.41L11.66 16.17 7.48 12l-1.41 1.41L11.66 19l12-12-1.42-1.41zM.41 13.41L6 19l1.41-1.41L1.83 12 .41 13.41z"/></svg>
-                <span>Select All</span>
-            `;
-            selectAllBtn.dataset.mode = 'select';
-        }
+        // FORCE "Select All" text always (Never change to Deselect)
+        selectAllBtn.innerHTML = `
+             <svg viewBox="0 0 24 24"><path d="M18 7l-1.41-1.41-6.34 6.34 1.41 1.41L18 7zm4.24-1.41L11.66 16.17 7.48 12l-1.41 1.41L11.66 19l12-12-1.42-1.41zM.41 13.41L6 19l1.41-1.41L1.83 12 .41 13.41z"/></svg>
+            <span>Select All</span>
+        `;
     }
 }
 
@@ -1124,23 +1117,21 @@ document.addEventListener('keydown', e => {
 
 // ----------------- SELECT ALL BUTTON -----------------
 // Handle floating "Select All/Deselect All" button click
-selectAllBtn.addEventListener('click', () => {
-    const isSelectMode = selectAllBtn.dataset.mode !== 'deselect';
-    const cards = document.querySelectorAll('.book-card');
+selectAllBtn.addEventListener('click', (e) => {
+    // CRITICAL: Stop the click from bubbling to the document (which clears selection)
+    e.stopPropagation(); 
 
-    if (isSelectMode) {
-        cards.forEach(card => {
-            selectedBooks.add(card.dataset.code);
-            card.classList.add('selected');
-        });
-    } else {
-        selectedBooks.clear();
-        cards.forEach(c => c.classList.remove('selected'));
-    }
+    const cards = document.querySelectorAll('.book-card');
+    
+    // Always Select All (Removed the logic to Deselect)
+    cards.forEach(card => {
+        selectedBooks.add(card.dataset.code);
+        card.classList.add('selected');
+    });
+
     updateFloatingActions();
 });
 
-// ----------------- DOWNLOAD -----------------
 // ----------------- DOWNLOAD -----------------
 // Handle download button click
 downloadBtn.addEventListener('click', async () => {
@@ -1353,3 +1344,4 @@ function setupMarquee() {
         }
     });
 }
+
