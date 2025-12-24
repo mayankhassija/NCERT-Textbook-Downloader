@@ -1004,7 +1004,7 @@ function renderBooks(increment = false) {
             card.innerHTML = `
                 <img src="${thumbUrl(book.book_code)}" alt="${book.title}" loading="lazy" onerror="handleImageError(this)">
                 <div class="book-title">${book.title}</div>
-                <div class="book-meta">${book.class} • ${book.subject}</div>
+                <div class="book-meta">Class • ${book.class}</div>
             `;
             grid.appendChild(card);
         });
@@ -1344,4 +1344,5 @@ function setupMarquee() {
         }
     });
 }
+
 
