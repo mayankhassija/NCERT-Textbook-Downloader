@@ -1,0 +1,15 @@
+# Node modules
+node_modules/
+npm-debug.log*
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Scraper output (optional - I recommend committing books.json so the site works immediately, but gitignoring it if you want it purely generated)
+# books.json 
+# (Commenting out books.json because for GitHub Pages to work, it MUST be committed)

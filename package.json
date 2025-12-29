@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "axios": "^1.13.2",
+    "puppeteer": "^24.34.0"
+  },
+  "name": "ncert-textbook-downloader",
+  "version": "1.0.0",
+  "description": "<div align=\"center\">\r   <img width=\"1920\" height=\"922\" alt=\"vocational_books\" src=\"https://github.com/user-attachments/assets/d4e3d6f2-9108-41bb-a1ad-4016704b7dd9\" />\r   <br/>\r   <br/>\r   <p>\r     <b>A modern, efficient, and user-friendly web application to browse and download NCERT textbooks.</b>\r   </p>\r </div>",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mayankhassija/NCERT-Textbook-Downloader.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/mayankhassija/NCERT-Textbook-Downloader/issues"
+  },
+  "homepage": "https://github.com/mayankhassija/NCERT-Textbook-Downloader#readme"
+}
