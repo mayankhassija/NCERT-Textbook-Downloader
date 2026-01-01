@@ -39,15 +39,14 @@
 
 
 <body>
-    <!-- W3Schools-Style Navbar -->
+    <!-- Tabs.com-Style Navbar -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-left">
-                <a href="#" class="nav-logo">📚 NCERT</a>
                 <div class="nav-links">
-                    <button class="nav-btn" data-mega="languages">Languages <i class="chevron">▼</i></button>
-                    <button class="nav-btn" data-mega="subjects">Subjects <i class="chevron">▼</i></button>
-                    <button class="nav-btn" data-mega="classes">Classes <i class="chevron">▼</i></button>
+                    <button class="nav-link" data-mega="languages">Languages <i class="chevron">▼</i></button>
+                    <button class="nav-link" data-mega="subjects">Subjects <i class="chevron">▼</i></button>
+                    <button class="nav-link" data-mega="classes">Classes <i class="chevron">▼</i></button>
                 </div>
             </div>
             <div class="nav-right">
@@ -60,10 +59,6 @@
         <!-- Mega Menu: Languages -->
         <div id="mega-languages" class="mega-menu">
             <div class="mega-content">
-                <button class="mega-close" title="Close Menu">&times;</button>
-                <div class="mega-header">
-                    <h2>Languages</h2>
-                </div>
                 <div id="language-filters" class="filter-grid"></div>
             </div>
         </div>
@@ -71,10 +66,6 @@
         <!-- Mega Menu: Subjects -->
         <div id="mega-subjects" class="mega-menu">
             <div class="mega-content">
-                <button class="mega-close" title="Close Menu">&times;</button>
-                <div class="mega-header">
-                    <h2>Subjects</h2>
-                </div>
                 <div id="subject-filters" class="filter-grid"></div>
             </div>
         </div>
@@ -82,14 +73,38 @@
         <!-- Mega Menu: Classes -->
         <div id="mega-classes" class="mega-menu">
             <div class="mega-content">
-                <button class="mega-close" title="Close Menu">&times;</button>
-                <div class="mega-header">
-                    <h2>Classes</h2>
-                </div>
                 <div id="class-filters" class="filter-grid"></div>
             </div>
         </div>
     </nav>
+
+    <!-- Mobile Filters Row -->
+    <div id="mobile-menu" class="mobile-menu">
+        <div class="mobile-menu-item">
+            <button class="mobile-menu-header" data-filter="languages">
+                Languages <i class="chevron">▼</i>
+            </button>
+            <div class="mobile-menu-content" id="mobile-languages">
+                <div id="mobile-language-filters" class="mobile-filter-list"></div>
+            </div>
+        </div>
+        <div class="mobile-menu-item">
+            <button class="mobile-menu-header" data-filter="subjects">
+                Subjects <i class="chevron">▼</i>
+            </button>
+            <div class="mobile-menu-content" id="mobile-subjects">
+                <div id="mobile-subject-filters" class="mobile-filter-list"></div>
+            </div>
+        </div>
+        <div class="mobile-menu-item">
+            <button class="mobile-menu-header" data-filter="classes">
+                Classes <i class="chevron">▼</i>
+            </button>
+            <div class="mobile-menu-content" id="mobile-classes">
+                <div id="mobile-class-filters" class="mobile-filter-list"></div>
+            </div>
+        </div>
+    </div>
 
     <!-- Application Layout -->
     <div class="app-container">

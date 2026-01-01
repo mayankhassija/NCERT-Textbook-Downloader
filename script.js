@@ -21,9 +21,8 @@ const downloadBtn = document.getElementById('download-selected');
 const selectAllBtn = document.getElementById('select-all-btn');
 const floatingActions = document.getElementById('floating-actions');
 const globalSearchInput = document.getElementById('global-search');
-const navBtns = document.querySelectorAll('.nav-btn');
+const navBtns = document.querySelectorAll('.nav-link');
 const megaMenus = document.querySelectorAll('.mega-menu');
-const megaCloseBtns = document.querySelectorAll('.mega-close');
 
 // Language code mapping (extracted from book codes)
 const LANGUAGE_MAP = {
@@ -103,40 +102,197 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupMegaMenus();
     setupGlobalSearch();
     setupMarquee();
+    setupMobileSidebar();
 });
+
+// ----------------- MOBILE MENU -----------------
+function setupMobileSidebar() {
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileHeaders = document.querySelectorAll('.mobile-menu-header');
+    
+    if (mobileMenu) {
+        // Always show menu on mobile
+        if (window.innerWidth <= 768) {
+            mobileMenu.classList.add('open');
+        }
+        
+        // Handle accordion expansion - only one open at a time
+        mobileHeaders.forEach(header => {
+            header.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const content = header.nextElementSibling;
+                const isActive = header.classList.contains('active');
+                
+                // Close all other accordion items
+                mobileHeaders.forEach(h => {
+                    if (h !== header) {
+                        h.classList.remove('active');
+                        const c = h.nextElementSibling;
+                        if (c) c.classList.remove('active');
+                    }
+                });
+                
+                // Toggle current item
+                if (isActive) {
+                    header.classList.remove('active');
+                    if (content) content.classList.remove('active');
+                } else {
+                    header.classList.add('active');
+                    if (content) content.classList.add('active');
+                }
+            });
+        });
+        
+        // Populate mobile filter lists
+        populateMobileFilters();
+        
+        // Handle mobile filter changes
+        setupMobileFilters();
+        
+        // Show menu on resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth <= 768) {
+                mobileMenu.classList.add('open');
+            } else {
+                mobileMenu.classList.remove('open');
+            }
+        });
+    }
+}
+
+function populateMobileFilters() {
+    const mobileLangFilters = document.getElementById('mobile-language-filters');
+    const mobileSubjFilters = document.getElementById('mobile-subject-filters');
+    const mobileClassFilters = document.getElementById('mobile-class-filters');
+    
+    if (!mobileLangFilters || !mobileSubjFilters || !mobileClassFilters) return;
+    
+    // Languages
+    const languages = [...new Set(BOOKS.map(b => getLanguageFromCode(b.book_code)))]
+        .filter(lang => lang !== 'Other')
+        .sort((a, b) => a.localeCompare(b));
+    
+    languages.forEach(lang => {
+        const label = document.createElement('label');
+        label.innerHTML = `<input type="checkbox" value="${lang}" data-type="language"><span>${lang}</span>`;
+        mobileLangFilters.appendChild(label);
+    });
+    
+    // Subjects
+    [...new Set(BOOKS.map(b => b.subject))].sort((a, b) => a.localeCompare(b)).forEach(subj => {
+        const label = document.createElement('label');
+        label.innerHTML = `<input type="checkbox" value="${subj}" data-type="subject"><span>${subj}</span>`;
+        mobileSubjFilters.appendChild(label);
+    });
+    
+    // Classes
+    [...new Set(BOOKS.map(b => b.class))].sort((a, b) => a - b).forEach(cls => {
+        const label = document.createElement('label');
+        label.innerHTML = `<input type="checkbox" value="${cls}" data-type="class"><span>Class ${cls}</span>`;
+        mobileClassFilters.appendChild(label);
+    });
+}
+
+function setupMobileFilters() {
+    // Sync mobile checkboxes with desktop checkboxes and trigger book rendering
+    document.addEventListener('change', (e) => {
+        if (e.target.matches('#mobile-menu input[type="checkbox"]')) {
+            const value = e.target.value;
+            const type = e.target.dataset.type;
+            
+            // Find and sync with desktop checkbox
+            const desktopCheckbox = document.querySelector(`[data-type="${type}"]:not(#mobile-menu [data-type="${type}"])[value="${value}"]`);
+            
+            if (desktopCheckbox) {
+                desktopCheckbox.checked = e.target.checked;
+            }
+            
+            // Render books with updated filters
+            renderBooks(false);
+        }
+        
+        // Sync desktop checkboxes with mobile
+        if (e.target.matches('[data-type]:not(#mobile-menu [data-type])')) {
+            const value = e.target.value;
+            const type = e.target.dataset.type;
+            const mobileCheckbox = document.querySelector(`#mobile-menu [data-type="${type}"][value="${value}"]`);
+            
+            if (mobileCheckbox) {
+                mobileCheckbox.checked = e.target.checked;
+            }
+        }
+    });
+}
 
 // ----------------- MEGA MENU LOGIC -----------------
 function setupMegaMenus() {
     navBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const targetId = `mega-${btn.dataset.mega}`;
-            const targetMenu = document.getElementById(targetId);
-            const isActive = targetMenu.classList.contains('active');
-
-            // Close all first
-            closeAllMegaMenus();
-
-            if (!isActive) {
+        const targetId = `mega-${btn.dataset.mega}`;
+        const targetMenu = document.getElementById(targetId);
+        
+        if (!targetMenu) return;
+        
+        // Hover behavior - only on large screens (>768px)
+        btn.addEventListener('mouseenter', () => {
+            // Only work on large screens
+            if (window.innerWidth > 768) {
+                closeAllMegaMenus();
                 targetMenu.classList.add('active');
                 btn.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Optional: lock scroll
-            } else {
-                document.body.style.overflow = '';
             }
-            e.stopPropagation();
+        });
+        
+        btn.addEventListener('mouseleave', () => {
+            // Only work on large screens
+            if (window.innerWidth > 768) {
+                // Small delay to allow moving to menu
+                setTimeout(() => {
+                    if (!targetMenu.matches(':hover') && !btn.matches(':hover')) {
+                        targetMenu.classList.remove('active');
+                        btn.classList.remove('active');
+                    }
+                }, 100);
+            }
+        });
+        
+        targetMenu.addEventListener('mouseenter', () => {
+            // Only work on large screens
+            if (window.innerWidth > 768) {
+                targetMenu.classList.add('active');
+                btn.classList.add('active');
+            }
+        });
+        
+        targetMenu.addEventListener('mouseleave', () => {
+            // Only work on large screens
+            if (window.innerWidth > 768) {
+                targetMenu.classList.remove('active');
+                btn.classList.remove('active');
+            }
+        });
+        
+        // Click behavior - works on all screen sizes
+        btn.addEventListener('click', (e) => {
+            // On small screens, use click to toggle
+            if (window.innerWidth <= 768) {
+                const isActive = targetMenu.classList.contains('active');
+                closeAllMegaMenus();
+                
+                if (!isActive) {
+                    targetMenu.classList.add('active');
+                    btn.classList.add('active');
+                }
+                e.stopPropagation();
+            }
         });
     });
 
-    megaCloseBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            closeAllMegaMenus();
-        });
-    });
-
-    // Close on click outside
+    // Close on click outside (mobile only)
     document.addEventListener('click', (e) => {
-        if (!e.target.closest('.mega-menu') && !e.target.closest('.nav-btn')) {
-            closeAllMegaMenus();
+        if (window.innerWidth <= 768) {
+            if (!e.target.closest('.mega-menu') && !e.target.closest('.nav-link')) {
+                closeAllMegaMenus();
+            }
         }
     });
 
@@ -149,7 +305,6 @@ function setupMegaMenus() {
 function closeAllMegaMenus() {
     megaMenus.forEach(m => m.classList.remove('active'));
     navBtns.forEach(b => b.classList.remove('active'));
-    document.body.style.overflow = '';
 }
 
 // ----------------- GLOBAL SEARCH -----------------
@@ -280,11 +435,25 @@ function renderBooks(increment = false) {
 
             if (selectedBooks.has(book.book_code)) card.classList.add('selected');
 
+            const img = document.createElement('img');
+            img.src = thumbUrl(book.book_code);
+            img.alt = book.title;
+            img.loading = 'lazy';
+            
+            // Smooth loading effect
+            img.addEventListener('load', function() {
+                this.classList.add('loaded');
+            });
+            
+            img.addEventListener('error', function() {
+                handleImageError(this);
+            });
+            
             card.innerHTML = `
-                <img src="${thumbUrl(book.book_code)}" alt="${book.title}" loading="lazy" onerror="handleImageError(this)">
                 <div class="book-title">${book.title}</div>
                 <div class="book-meta">Class ${book.class}</div>
             `;
+            card.insertBefore(img, card.firstChild);
             grid.appendChild(card);
         });
 
@@ -604,3 +773,4 @@ function setupMarquee() {
         }
     });
 }
+
