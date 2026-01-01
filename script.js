@@ -13,12 +13,68 @@ let BOOKS = [];
 // 2. DOM Elements & Application State
 // =========================================
 // UI references
+const languageFilters = document.getElementById('language-filters');
 const subjectFilters = document.getElementById('subject-filters');
 const classFilters = document.getElementById('class-filters');
 const bookGrid = document.getElementById('book-grid');
 const downloadBtn = document.getElementById('download-selected');
 const selectAllBtn = document.getElementById('select-all-btn');
 const floatingActions = document.getElementById('floating-actions');
+const globalSearchInput = document.getElementById('global-search');
+const navBtns = document.querySelectorAll('.nav-btn');
+const megaMenus = document.querySelectorAll('.mega-menu');
+const megaCloseBtns = document.querySelectorAll('.mega-close');
+
+// Language code mapping (extracted from book codes)
+const LANGUAGE_MAP = {
+    'e': 'English',
+    'h': 'Hindi',
+    'u': 'Urdu',
+    'as': 'Assamese',
+    'pn': 'Punjabi',
+    'gj': 'Gujarati',
+    'ml': 'Malayalam',
+    'mt': 'Maithili',
+    'bd': 'Bodo',
+    'mr': 'Marathi',
+    'si': 'Sindhi',
+    'bn': 'Bengali',
+    'sk': 'Sanskrit',
+    'np': 'Nepali',
+    'or': 'Odia',
+    'mn': 'Manipuri',
+    'sn': 'Santhali',
+    'ko': 'Konkani',
+    'kn': 'Kannada',
+    'tm': 'Tamil',
+    'tl': 'Telugu',
+    'dg': 'Dogri',
+    'ks': 'Kashmiri'
+};
+
+// Extract language from book code
+function getLanguageFromCode(code) {
+    // Book code format: [class_letter][language_code][subject_code][part]
+    // Examples: aejm1 (English), ahjm1 (Hindi), basjm1 (Assamese)
+
+    // Remove first character (class letter) and last characters (subject+part)
+    const langPart = code.slice(1);
+
+    // Try two-letter codes first
+    for (const [key, value] of Object.entries(LANGUAGE_MAP)) {
+        if (key.length === 2 && langPart.startsWith(key)) {
+            return value;
+        }
+    }
+
+    // Try single-letter codes
+    const firstChar = langPart[0];
+    if (LANGUAGE_MAP[firstChar]) {
+        return LANGUAGE_MAP[firstChar];
+    }
+
+    return 'Other';
+}
 
 // State management
 let selectedBooks = new Set();    // Stores active book codes
@@ -28,12 +84,15 @@ let ignoreNextClick = false;      // Debounce flag for drag interactions
 const booksToShow = 12;
 let currentCount = 0;
 
-// ----------------- INITIALIZATION -----------------
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        const response = await fetch('./books.json');
-        if (!response.ok) throw new Error('Failed to load books.json');
-        BOOKS = await response.json();
+        if (typeof BOOKS_DATA !== 'undefined') {
+            BOOKS = BOOKS_DATA;
+        } else {
+            const response = await fetch('./books.json');
+            if (!response.ok) throw new Error('Failed to load books.json');
+            BOOKS = await response.json();
+        }
     } catch (error) {
         console.error('Error loading books:', error);
         bookGrid.innerHTML = '<div class="no-results">Error loading book database. Please check console.</div>';
@@ -41,75 +100,89 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     renderFilters();
     renderBooks(false);
-    setupFilterToggles();
-    setupMobileMenu();
+    setupMegaMenus();
+    setupGlobalSearch();
     setupMarquee();
 });
 
-// ----------------- MOBILE MENU -----------------
-function setupMobileMenu() {
-    const hamburgerBtn = document.getElementById('hamburger-btn');
-    const sidebar = document.getElementById('sidebar');
+// ----------------- MEGA MENU LOGIC -----------------
+function setupMegaMenus() {
+    navBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const targetId = `mega-${btn.dataset.mega}`;
+            const targetMenu = document.getElementById(targetId);
+            const isActive = targetMenu.classList.contains('active');
 
-    // Create overlay
-    const overlay = document.createElement('div');
-    overlay.className = 'sidebar-overlay';
-    document.body.appendChild(overlay);
+            // Close all first
+            closeAllMegaMenus();
 
-    // Toggle menu
-    function toggleMenu() {
-        hamburgerBtn.classList.toggle('active');
-        sidebar.classList.toggle('active');
-        overlay.classList.toggle('active');
+            if (!isActive) {
+                targetMenu.classList.add('active');
+                btn.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Optional: lock scroll
+            } else {
+                document.body.style.overflow = '';
+            }
+            e.stopPropagation();
+        });
+    });
 
-        // Prevent body scroll when menu is open
-        if (sidebar.classList.contains('active')) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = '';
-        }
-    }
+    megaCloseBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            closeAllMegaMenus();
+        });
+    });
 
-    // Close menu
-    function closeMenu() {
-        hamburgerBtn.classList.remove('active');
-        sidebar.classList.remove('active');
-        overlay.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-
-    // Event listeners
-    hamburgerBtn.addEventListener('click', toggleMenu);
-    overlay.addEventListener('click', closeMenu);
-
-    // Close menu when clicking on filter checkboxes (mobile UX improvement)
-    sidebar.addEventListener('click', (e) => {
-        if (e.target.type === 'checkbox' && window.innerWidth <= 768) {
-            // Small delay so user can see the checkbox change
-            setTimeout(closeMenu, 300);
+    // Close on click outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.mega-menu') && !e.target.closest('.nav-btn')) {
+            closeAllMegaMenus();
         }
     });
 
-    // Close menu on window resize if going to desktop
-    window.addEventListener('resize', () => {
-        if (window.innerWidth > 768) {
-            closeMenu();
-        }
+    // Prevent menu clicks from bubbling up
+    megaMenus.forEach(menu => {
+        menu.addEventListener('click', (e) => e.stopPropagation());
     });
 }
+
+function closeAllMegaMenus() {
+    megaMenus.forEach(m => m.classList.remove('active'));
+    navBtns.forEach(b => b.classList.remove('active'));
+    document.body.style.overflow = '';
+}
+
+// ----------------- GLOBAL SEARCH -----------------
+function setupGlobalSearch() {
+    globalSearchInput.addEventListener('input', () => {
+        renderBooks(false);
+    });
+}
+
+
 
 
 // ----------------- FILTERS -----------------
 // ----------------- FILTERS -----------------
 // Render the sidebar filter options
 function renderFilters() {
+    // Languages - extract from book codes and sort alphabetically
+    const languages = [...new Set(BOOKS.map(b => getLanguageFromCode(b.book_code)))]
+        .filter(lang => lang !== 'Other')
+        .sort((a, b) => a.localeCompare(b));
+
+    languages.forEach(lang => {
+        languageFilters.innerHTML += `<label><input type="checkbox" value="${lang}" data-type="language"><span>${lang}</span></label>`;
+    });
+
     // Subjects - sorted alphabetically
     [...new Set(BOOKS.map(b => b.subject))].sort((a, b) => a.localeCompare(b)).forEach(s => {
-        subjectFilters.innerHTML += `<label><input type="checkbox" value="${s}" data-type="subject">${s}</label>`;
+        subjectFilters.innerHTML += `<label><input type="checkbox" value="${s}" data-type="subject"><span>${s}</span></label>`;
     });
+
     // Classes
     [...new Set(BOOKS.map(b => b.class))].sort((a, b) => a - b)
-        .forEach(c => classFilters.innerHTML += `<label><input type="checkbox" value="${c}" data-type="class">Class ${c}</label>`);
+        .forEach(c => classFilters.innerHTML += `<label><input type="checkbox" value="${c}" data-type="class"><span>Class ${c}</span></label>`);
 
     document.querySelectorAll('input[type=checkbox]').forEach(cb => cb.addEventListener('change', () => {
         renderBooks(false); // Reset count on filter change
@@ -118,14 +191,26 @@ function renderFilters() {
 
 // ----------------- BOOK GRID -----------------
 function renderBooks(increment = false) {
+    const languages = [...document.querySelectorAll('[data-type=language]:checked')].map(c => c.value);
     const subjects = [...document.querySelectorAll('[data-type=subject]:checked')].map(c => c.value);
     const classes = [...document.querySelectorAll('[data-type=class]:checked')].map(c => +c.value);
+    const query = globalSearchInput.value.toLowerCase().trim();
 
     // 1. Filter
-    const filtered = BOOKS.filter(b =>
-        (!subjects.length || subjects.includes(b.subject)) &&
-        (!classes.length || classes.includes(b.class))
-    );
+    const filtered = BOOKS.filter(b => {
+        const bookLanguage = getLanguageFromCode(b.book_code);
+        const matchesFilters = (
+            (!languages.length || languages.includes(bookLanguage)) &&
+            (!subjects.length || subjects.includes(b.subject)) &&
+            (!classes.length || classes.includes(b.class))
+        );
+        const matchesSearch = !query ||
+            b.title.toLowerCase().includes(query) ||
+            b.subject.toLowerCase().includes(query) ||
+            b.book_code.toLowerCase().includes(query);
+
+        return matchesFilters && matchesSearch;
+    });
 
     // 2. Group by Subject
     const grouped = filtered.reduce((acc, book) => {
@@ -155,6 +240,33 @@ function renderBooks(increment = false) {
         const header = document.createElement('h2');
         header.className = 'subject-header';
         header.textContent = subject;
+        header.title = 'Click to select all books in this subject';
+        header.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent document click handler from clearing selecton
+            const allCodes = books.map(b => b.book_code);
+            const allSelected = allCodes.every(code => selectedBooks.has(code));
+
+            if (allSelected) {
+                // Deselect all in this group
+                allCodes.forEach(code => selectedBooks.delete(code));
+            } else {
+                // Select all in this group
+                allCodes.forEach(code => selectedBooks.add(code));
+            }
+
+            // Update UI
+            document.querySelectorAll('.book-card').forEach(card => {
+                const code = card.dataset.code;
+                if (allCodes.includes(code)) {
+                    if (selectedBooks.has(code)) {
+                        card.classList.add('selected');
+                    } else {
+                        card.classList.remove('selected');
+                    }
+                }
+            });
+            updateFloatingActions();
+        });
         bookGrid.appendChild(header);
 
         // Grid for this subject
@@ -262,9 +374,10 @@ document.addEventListener('click', e => {
         return;
     }
     if (!e.target.closest('.book-card') &&
-        !e.target.closest('#download-selected') &&
-        !e.target.closest('#select-all-btn') &&
-        !e.target.closest('.sidebar')) {
+        !e.target.closest('.subject-header') &&
+        !e.target.closest('.floating-actions') &&
+        !e.target.closest('.navbar') &&
+        !e.target.closest('.mega-menu')) {
         clearSelection();
     }
 });
@@ -384,21 +497,7 @@ downloadBtn.addEventListener('click', async () => {
 });
 
 
-// ----------------- FILTER TOGGLE UI -----------------
-// ----------------- FILTER TOGGLE UI -----------------
-// Setup expandable/collapsible filter sections (not currently key to main flow but kept for future)
-function setupFilterToggles() {
-    const toggles = document.querySelectorAll('.filter-toggle');
-    toggles.forEach(toggle => {
-        const targetId = toggle.getAttribute('data-target');
-        const content = document.getElementById(targetId);
-        const icon = toggle.querySelector('.toggle-icon');
-        toggle.addEventListener('click', () => {
-            content.classList.toggle('expanded');
-            icon.classList.toggle('collapsed');
-        });
-    });
-}
+
 
 // ----------------- MARQUEE SELECTION -----------------
 // ----------------- MARQUEE SELECTION -----------------
@@ -416,23 +515,25 @@ function setupMarquee() {
         // Ignore if right click, or on sidebar/header/buttons/cards
         if (e.button !== 0) return;
         if (e.target.closest('.book-card') ||
-            e.target.closest('.sidebar') ||
-            e.target.closest('.mobile-header') ||
-            e.target.closest('#floating-actions')) return;
+            e.target.closest('.navbar') ||
+            e.target.closest('.mega-menu') ||
+            e.target.closest('.floating-actions')) return;
 
         isDragging = true;
         startX = e.pageX;
         startY = e.pageY;
 
+        // Don't clear immediately. The global 'click' handler will handle
+        // clearing if it's a simple click. If it's a drag, we want it 
+        // to be potentially additive based on what the user wants.
+        // For this project, let's keep marquee additive to match 
+        // the "stay selected" request.
+
         marquee.style.left = startX + 'px';
         marquee.style.top = startY + 'px';
         marquee.style.width = '0px';
         marquee.style.height = '0px';
-        marquee.style.display = 'block';
-
-        if (!e.ctrlKey && !e.shiftKey) {
-            clearSelection();
-        }
+        marquee.style.display = 'none'; // Only show after moving a bit
     });
 
     document.addEventListener('mousemove', e => {
@@ -447,9 +548,6 @@ function setupMarquee() {
 
         if (marquee.style.display !== 'block') {
             marquee.style.display = 'block';
-            if (!e.ctrlKey && !e.shiftKey) {
-                clearSelection();
-            }
         }
 
         // Prevent default text selection during drag
@@ -487,13 +585,8 @@ function setupMarquee() {
                     card.classList.add('selected');
                 }
             } else {
-                // Only deselect if we are in "replace" mode (no ctrl)
-                if (!e.ctrlKey && !e.shiftKey) {
-                    if (selectedBooks.has(code)) {
-                        selectedBooks.delete(code);
-                        card.classList.remove('selected');
-                    }
-                }
+                // Marquee is now strictly additive to satisfy "stay selected" request
+                // Deselection is only done via individual card toggle or clicking empty area
             }
         });
         updateFloatingActions();

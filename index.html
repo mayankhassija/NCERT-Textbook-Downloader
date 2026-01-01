@@ -39,35 +39,60 @@
 
 
 <body>
-    <!-- Mobile Header -->
-    <header class="mobile-header">
-        <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        <h1 class="app-title">📚 NCERT Textbooks</h1>
-    </header>
+    <!-- W3Schools-Style Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="#" class="nav-logo">📚 NCERT</a>
+                <div class="nav-links">
+                    <button class="nav-btn" data-mega="languages">Languages <i class="chevron">▼</i></button>
+                    <button class="nav-btn" data-mega="subjects">Subjects <i class="chevron">▼</i></button>
+                    <button class="nav-btn" data-mega="classes">Classes <i class="chevron">▼</i></button>
+                </div>
+            </div>
+            <div class="nav-right">
+                <div class="nav-search-container">
+                    <input type="text" id="global-search" placeholder="Search textbooks...">
+                </div>
+            </div>
+        </div>
+
+        <!-- Mega Menu: Languages -->
+        <div id="mega-languages" class="mega-menu">
+            <div class="mega-content">
+                <button class="mega-close" title="Close Menu">&times;</button>
+                <div class="mega-header">
+                    <h2>Languages</h2>
+                </div>
+                <div id="language-filters" class="filter-grid"></div>
+            </div>
+        </div>
+
+        <!-- Mega Menu: Subjects -->
+        <div id="mega-subjects" class="mega-menu">
+            <div class="mega-content">
+                <button class="mega-close" title="Close Menu">&times;</button>
+                <div class="mega-header">
+                    <h2>Subjects</h2>
+                </div>
+                <div id="subject-filters" class="filter-grid"></div>
+            </div>
+        </div>
+
+        <!-- Mega Menu: Classes -->
+        <div id="mega-classes" class="mega-menu">
+            <div class="mega-content">
+                <button class="mega-close" title="Close Menu">&times;</button>
+                <div class="mega-header">
+                    <h2>Classes</h2>
+                </div>
+                <div id="class-filters" class="filter-grid"></div>
+            </div>
+        </div>
+    </nav>
 
     <!-- Application Layout -->
     <div class="app-container">
-
-        <!-- Sidebar for Filters -->
-        <aside class="sidebar" id="sidebar">
-            <!-- Subject Filter Section -->
-            <div class="filter-section">
-                <h2>Subjects</h2>
-                <div id="subject-filters" class="filter-group"></div>
-            </div>
-
-            <!-- Class Filter Section -->
-            <div class="filter-section">
-                <h2>Classes</h2>
-                <div id="class-filters" class="filter-group"></div>
-            </div>
-
-        </aside>
-
         <!-- Main Content Area -->
         <main class="content">
             <!-- Container for Book Cards -->
@@ -97,6 +122,8 @@
 
     <!-- JSZip Library for Zipping Files -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <!-- Local Books Data (for offline/file protocol support) -->
+    <script src="books_data.js"></script>
     <!-- Main Application Script -->
     <script src="script.js"></script>
 </body>
