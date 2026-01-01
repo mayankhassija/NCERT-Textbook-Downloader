@@ -9,7 +9,7 @@ async function main() {
     console.log('[INIT] Launching browser...');
     const browser = await puppeteer.launch({
         headless: 'new',
-        // args: ['--no-sandbox', '--disable-setuid-sandbox'] // Optional: for containerized envs
+        args: ['--no-sandbox', '--disable-setuid-sandbox'] // Required for GitHub Actions / CI
     });
     const page = await browser.newPage();
 
