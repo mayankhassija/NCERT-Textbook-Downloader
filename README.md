@@ -20,3 +20,6 @@ A modern, responsive web application to easily discover and download NCERT textb
 
 ## License
 MIT
+
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/da70ffba-833e-4870-a68c-6ee95102ccff" />
+
